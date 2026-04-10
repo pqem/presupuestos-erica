@@ -32,52 +32,67 @@ interface BudgetDocumentProps {
   validityDays: number;
 }
 
+// Horizontal rule helper
+const HRule = ({ color = COLORS.brown, thickness = 2, marginVertical = 8 }) => (
+  <View
+    style={{
+      borderBottomWidth: thickness,
+      borderBottomColor: color,
+      marginTop: marginVertical,
+      marginBottom: marginVertical,
+    }}
+  />
+);
+
 const styles = StyleSheet.create({
   page: {
     paddingHorizontal: 50,
     paddingTop: 30,
-    paddingBottom: 55,
+    paddingBottom: 65,
     fontFamily: "Helvetica",
     fontSize: 10,
     lineHeight: 1.3,
     backgroundColor: COLORS.white,
     position: "relative",
   },
+  // Date top-right with underline
   dateContainer: {
     position: "absolute",
     top: 25,
     right: 50,
-    width: 200,
+    width: 180,
     textAlign: "right",
   },
-  date: {
-    fontSize: 9,
+  dateText: {
+    fontSize: 8,
     color: COLORS.darkGray,
+    paddingBottom: 3,
+    borderBottomWidth: 0.5,
+    borderBottomColor: COLORS.darkGray,
   },
+  // Title block
   titleSection: {
-    marginTop: 2,
-    marginBottom: 12,
+    marginTop: 8,
   },
   title: {
     fontSize: 28,
     fontFamily: "Helvetica-Bold",
     color: COLORS.brown,
-    marginBottom: 2,
-    letterSpacing: 3,
-    textTransform: "uppercase",
+    marginBottom: 0,
+    letterSpacing: 2,
   },
   subtitle: {
-    fontSize: 12,
-    fontFamily: "Helvetica-Bold",
+    fontSize: 13,
+    fontFamily: "Helvetica-BoldOblique",
     color: COLORS.lightBrown,
     letterSpacing: 1,
-    textTransform: "uppercase",
   },
+  // Body text
   clientName: {
     fontSize: 10,
     fontFamily: "Helvetica-Bold",
     color: COLORS.darkGray,
-    marginBottom: 6,
+    marginBottom: 2,
   },
   paragraph: {
     fontSize: 10,
@@ -92,11 +107,11 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontFamily: "Helvetica-Bold",
     color: COLORS.darkGray,
-    marginBottom: 3,
+    marginBottom: 2,
     marginTop: 4,
   },
   bulletList: {
-    marginLeft: 15,
+    marginLeft: 12,
     marginBottom: 2,
   },
   bulletItem: {
@@ -124,21 +139,20 @@ const styles = StyleSheet.create({
     fontSize: 10,
     lineHeight: 1.3,
     marginBottom: 1,
-    marginLeft: 15,
   },
   validityText: {
-    fontSize: 9,
+    fontSize: 10,
     color: COLORS.darkGray,
-    marginTop: 6,
-    marginBottom: 4,
+    marginTop: 4,
+    marginBottom: 2,
   },
   attestation: {
     fontSize: 10,
-    fontFamily: "Helvetica-Bold",
     color: COLORS.darkGray,
-    marginTop: 8,
+    marginTop: 4,
     marginBottom: 2,
   },
+  // Signature (left-aligned, bold brown)
   signatureBlock: {
     marginTop: 3,
     textAlign: "left",
@@ -160,14 +174,20 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica-Bold",
     color: COLORS.brown,
   },
+  // Footer (centered, below brown line)
   footer: {
     position: "absolute",
     bottom: 12,
+    left: 50,
     right: 50,
-    width: 300,
-    textAlign: "right",
+    textAlign: "center",
     fontSize: 7,
-    lineHeight: 1.3,
+    lineHeight: 1.4,
+  },
+  footerDivider: {
+    borderBottomWidth: 2,
+    borderBottomColor: COLORS.brown,
+    marginBottom: 6,
   },
   footerLine: {
     color: COLORS.darkGray,
@@ -199,20 +219,23 @@ export const BudgetDocument: React.FC<BudgetDocumentProps> = ({
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* Date top right */}
+        {/* Date top-right with underline */}
         <View style={styles.dateContainer}>
-          <Text style={styles.date}>
+          <Text style={styles.dateText}>
             {location}, {formatDate(date)}
           </Text>
         </View>
 
-        {/* Title */}
+        {/* Title + subtitle */}
         <View style={styles.titleSection}>
           <Text style={styles.title}>PRESUPUESTO</Text>
           <Text style={styles.subtitle}>{budgetTypeInfo.label}</Text>
         </View>
 
-        {/* Client + intro as continuous block */}
+        {/* Brown separator line below title */}
+        <HRule thickness={2} marginVertical={8} />
+
+        {/* Client */}
         <Text style={styles.clientName}>Sr. {clientName.toUpperCase()}</Text>
         <Text style={styles.paragraph}>
           Se presupuesta por elaboración, trámites y visado definitivo de planos para{" "}
@@ -259,22 +282,23 @@ export const BudgetDocument: React.FC<BudgetDocumentProps> = ({
           );
         })}
 
-        {/* Validity */}
+        {/* Validity + Atte */}
         <Text style={styles.validityText}>
           Se extiende el presente presupuesto por una plazo de {validityDays} días hábiles.
         </Text>
+        <Text style={styles.attestation}>Atte.-</Text>
 
         {/* Signature */}
-        <Text style={styles.attestation}>Atte.-</Text>
         <View style={styles.signatureBlock}>
           <Text style={styles.signatureName}>{ERICA_INFO.name}</Text>
           <Text style={styles.signatureTitle}>{ERICA_INFO.title}</Text>
           <Text style={styles.signatureLicense}>{ERICA_INFO.license}</Text>
         </View>
 
-        {/* Footer */}
+        {/* Footer: brown line + centered contact */}
         <View style={styles.footer}>
-          <Text style={styles.footerLine}>{ERICA_INFO.displayName} • {ERICA_INFO.title}</Text>
+          <View style={styles.footerDivider} />
+          <Text style={styles.footerLine}>{ERICA_INFO.displayName}• {ERICA_INFO.title}</Text>
           <Text style={styles.footerLine}>{ERICA_INFO.email} / Tel {ERICA_INFO.phone}</Text>
           <Text style={styles.footerLine}>{ERICA_INFO.address}</Text>
           <Text style={styles.footerWebsite}>{ERICA_INFO.website}</Text>
