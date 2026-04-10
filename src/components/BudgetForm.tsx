@@ -32,6 +32,12 @@ interface BudgetFormProps {
   initialData?: BudgetFormData | null;
 }
 
+const inputClass =
+  "w-full bg-[#252525] border border-[#2a2a2a] rounded px-3 py-2 text-sm text-[#e5e5e5] placeholder-[#666] focus:border-[#5C3D2E] focus:outline-none focus:ring-1 focus:ring-[#5C3D2E]";
+const inputSmClass =
+  "w-full bg-[#252525] border border-[#2a2a2a] rounded px-3 py-2 text-xs text-[#e5e5e5] placeholder-[#666] focus:border-[#5C3D2E] focus:outline-none focus:ring-1 focus:ring-[#5C3D2E]";
+const labelClass = "block text-sm font-semibold text-[#c9956b] mb-1";
+
 export const BudgetForm: React.FC<BudgetFormProps> = ({
   onFormChange,
   initialData,
@@ -154,64 +160,56 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
   };
 
   return (
-    <div className="w-full bg-white rounded-lg shadow-md p-6 max-w-md">
-      <h2 className="text-2xl font-bold mb-6 text-amber-900">
+    <div className="w-full bg-[#1a1a1a] rounded-lg border border-[#2a2a2a] p-6 max-w-md">
+      <h2 className="text-2xl font-bold mb-6 text-[#c9956b]">
         Nuevo Presupuesto
       </h2>
 
       {/* Date and Location */}
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-amber-900 mb-1">
-            Fecha
-          </label>
+          <label className={labelClass}>Fecha</label>
           <input
             type="date"
             name="date"
             value={formData.date}
             onChange={handleInputChange}
-            className="w-full border border-amber-200 rounded px-3 py-2 text-sm"
+            className={inputClass}
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-amber-900 mb-1">
-            Localidad
-          </label>
+          <label className={labelClass}>Localidad</label>
           <input
             type="text"
             name="location"
             value={formData.location}
             onChange={handleInputChange}
-            className="w-full border border-amber-200 rounded px-3 py-2 text-sm"
+            className={inputClass}
           />
         </div>
       </div>
 
       {/* Client Name */}
       <div className="mb-4">
-        <label className="block text-sm font-semibold text-amber-900 mb-1">
-          Nombre del cliente
-        </label>
+        <label className={labelClass}>Nombre del cliente</label>
         <input
           type="text"
           name="clientName"
           value={formData.clientName}
           onChange={handleInputChange}
-          className="w-full border border-amber-200 rounded px-3 py-2 text-sm"
+          className={inputClass}
           placeholder="Sr. Nombre Apellido"
         />
       </div>
 
       {/* Budget Type */}
       <div className="mb-4">
-        <label className="block text-sm font-semibold text-amber-900 mb-1">
-          Tipo de presupuesto
-        </label>
+        <label className={labelClass}>Tipo de presupuesto</label>
         <select
           name="budgetType"
           value={formData.budgetType}
           onChange={handleInputChange}
-          className="w-full border border-amber-200 rounded px-3 py-2 text-sm"
+          className={inputClass}
         >
           {Object.entries(BUDGET_TYPES).map(([key, value]) => (
             <option key={key} value={key} disabled={!value.enabled}>
@@ -224,47 +222,43 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
       {/* Price and Surface */}
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-amber-900 mb-1">
-            Precio por m²
-          </label>
+          <label className={labelClass}>Precio por m2</label>
           <input
             type="number"
             name="pricePerM2"
             value={formData.pricePerM2}
             onChange={handleInputChange}
-            className="w-full border border-amber-200 rounded px-3 py-2 text-sm"
+            className={inputClass}
             placeholder="0"
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-amber-900 mb-1">
-            Superficie (m²)
-          </label>
+          <label className={labelClass}>Superficie (m2)</label>
           <input
             type="number"
             name="surfaceM2"
             value={formData.surfaceM2}
             onChange={handleInputChange}
-            className="w-full border border-amber-200 rounded px-3 py-2 text-sm"
+            className={inputClass}
             placeholder="0"
           />
         </div>
       </div>
 
       {/* Total */}
-      <div className="mb-6 p-4 bg-amber-50 rounded-lg">
+      <div className="mb-6 p-4 bg-[#252525] rounded-lg border border-[#2a2a2a]">
         <div className="flex justify-between items-center">
-          <span className="text-sm font-semibold text-amber-900">TOTAL:</span>
-          <span className="text-lg font-bold text-amber-900">
+          <span className="text-sm font-semibold text-[#888]">TOTAL:</span>
+          <span className="text-lg font-bold text-[#c9956b]">
             {formatCurrency(total)}
           </span>
         </div>
-        <p className="text-xs text-amber-700 mt-2">(IVA incluido)</p>
+        <p className="text-xs text-[#666] mt-2">(IVA incluido)</p>
       </div>
 
       {/* Include Items */}
       <div className="mb-4">
-        <h3 className="text-sm font-semibold text-amber-900 mb-2">INCLUYE:</h3>
+        <h3 className="text-sm font-semibold text-[#c9956b] mb-2">INCLUYE:</h3>
         <div className="space-y-2 max-h-40 overflow-y-auto">
           {formData.includeItems.map((item, idx) => (
             <input
@@ -272,7 +266,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
               type="text"
               value={item}
               onChange={(e) => handleIncludeItemChange(idx, e.target.value)}
-              className="w-full border border-amber-200 rounded px-3 py-2 text-xs"
+              className={inputSmClass}
             />
           ))}
         </div>
@@ -280,7 +274,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
 
       {/* Exclude Items */}
       <div className="mb-4">
-        <h3 className="text-sm font-semibold text-amber-900 mb-2">
+        <h3 className="text-sm font-semibold text-[#c9956b] mb-2">
           NO INCLUYE:
         </h3>
         <div className="space-y-2 max-h-40 overflow-y-auto">
@@ -290,7 +284,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
               type="text"
               value={item}
               onChange={(e) => handleExcludeItemChange(idx, e.target.value)}
-              className="w-full border border-amber-200 rounded px-3 py-2 text-xs"
+              className={inputSmClass}
             />
           ))}
         </div>
@@ -298,7 +292,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
 
       {/* Payment Stages */}
       <div className="mb-4">
-        <h3 className="text-sm font-semibold text-amber-900 mb-2">
+        <h3 className="text-sm font-semibold text-[#c9956b] mb-2">
           FORMA DE PAGO:
         </h3>
         <div className="space-y-2 max-h-40 overflow-y-auto">
@@ -310,7 +304,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
                 onChange={(e) =>
                   handlePaymentStageChange(idx, "description", e.target.value)
                 }
-                className="flex-1 border border-amber-200 rounded px-2 py-1 text-xs"
+                className="flex-1 bg-[#252525] border border-[#2a2a2a] rounded px-2 py-1 text-xs text-[#e5e5e5] focus:border-[#5C3D2E] focus:outline-none"
                 placeholder="Descripción"
               />
               <input
@@ -319,13 +313,13 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
                 onChange={(e) =>
                   handlePaymentStageChange(idx, "percent", e.target.value)
                 }
-                className="w-16 border border-amber-200 rounded px-2 py-1 text-xs"
+                className="w-16 bg-[#252525] border border-[#2a2a2a] rounded px-2 py-1 text-xs text-[#e5e5e5] focus:border-[#5C3D2E] focus:outline-none"
                 placeholder="%"
               />
               {formData.paymentStages.length > 1 && (
                 <button
                   onClick={() => handleRemovePaymentStage(idx)}
-                  className="text-red-500 text-xs font-bold"
+                  className="text-[#ef4444] text-xs font-bold hover:text-red-400"
                 >
                   ✕
                 </button>
@@ -335,7 +329,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
         </div>
         <button
           onClick={handleAddPaymentStage}
-          className="mt-2 text-xs bg-amber-100 text-amber-900 px-3 py-1 rounded hover:bg-amber-200"
+          className="mt-2 text-xs bg-[#252525] text-[#c9956b] border border-[#2a2a2a] px-3 py-1 rounded hover:bg-[#333] transition"
         >
           + Agregar etapa
         </button>
@@ -343,22 +337,20 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
 
       {/* Validity Days */}
       <div className="mb-6">
-        <label className="block text-sm font-semibold text-amber-900 mb-1">
-          Validez (días)
-        </label>
+        <label className={labelClass}>Validez (días)</label>
         <input
           type="number"
           name="validityDays"
           value={formData.validityDays}
           onChange={handleInputChange}
-          className="w-full border border-amber-200 rounded px-3 py-2 text-sm"
+          className={inputClass}
         />
       </div>
 
       {/* Save to History Button */}
       <button
         onClick={handleSaveToHistory}
-        className="w-full bg-amber-100 text-amber-900 font-semibold py-2 rounded hover:bg-amber-200 transition text-sm"
+        className="w-full bg-[#5C3D2E] text-[#e5e5e5] font-semibold py-2 rounded hover:bg-[#7a5240] transition text-sm"
       >
         Guardar en historial
       </button>

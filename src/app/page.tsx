@@ -11,7 +11,7 @@ const PdfPreview = dynamic(() =>
   import("@/components/PdfPreview").then((mod) => mod.PdfPreview),
   {
     ssr: false,
-    loading: () => <div className="flex items-center justify-center h-full text-gray-500">Cargando PDF...</div>,
+    loading: () => <div className="flex items-center justify-center h-full text-[#888]">Cargando PDF...</div>,
   }
 );
 
@@ -45,13 +45,13 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col min-h-screen bg-[#0f0f0f]">
       {/* Header */}
-      <header className="bg-amber-900 text-white shadow-lg">
+      <header className="bg-[#1a1a1a] border-b border-[#2a2a2a]">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold">{ERICA_INFO.name}</h1>
-          <p className="text-amber-100">{ERICA_INFO.title}</p>
-          <p className="text-xs text-amber-200 mt-1">{ERICA_INFO.license}</p>
+          <h1 className="text-3xl font-bold text-[#c9956b]">{ERICA_INFO.name}</h1>
+          <p className="text-[#8b6f47]">{ERICA_INFO.title}</p>
+          <p className="text-xs text-[#666] mt-1">{ERICA_INFO.license}</p>
         </div>
       </header>
 
@@ -71,7 +71,7 @@ export default function Home() {
 
           {/* Right Side: PDF Preview */}
           {isMounted && (
-            <div className="hidden lg:flex flex-col bg-white rounded-lg shadow-md overflow-hidden h-full">
+            <div className="hidden lg:flex flex-col bg-[#1a1a1a] rounded-lg border border-[#2a2a2a] overflow-hidden h-full">
               <PdfPreview formData={formData} />
             </div>
           )}
@@ -79,22 +79,22 @@ export default function Home() {
 
         {/* Mobile PDF Section */}
         <div className="lg:hidden mt-8">
-          <h2 className="text-xl font-bold mb-4 text-amber-900">
+          <h2 className="text-xl font-bold mb-4 text-[#c9956b]">
             Vista previa PDF
           </h2>
-          <div className="bg-white rounded-lg shadow-md overflow-hidden" style={{ height: "600px" }}>
+          <div className="bg-[#1a1a1a] rounded-lg border border-[#2a2a2a] overflow-hidden" style={{ height: "600px" }}>
             {isMounted && <PdfPreview formData={formData} />}
           </div>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="bg-amber-50 border-t border-amber-200 py-4 mt-8">
-        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-amber-900">
+      <footer className="bg-[#1a1a1a] border-t border-[#2a2a2a] py-4 mt-8">
+        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-[#888]">
           <p>{ERICA_INFO.email}</p>
           <p>Tel {ERICA_INFO.phone}</p>
           <p>{ERICA_INFO.address}</p>
-          <p className="mt-2 text-xs text-amber-700">{ERICA_INFO.website}</p>
+          <p className="mt-2 text-xs text-[#5C3D2E]">{ERICA_INFO.website}</p>
         </div>
       </footer>
     </div>
