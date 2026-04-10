@@ -74,10 +74,9 @@ export const DEFAULT_PAYMENT_STAGES: PaymentStage[] = [
 
 // Color scheme
 export const COLORS = {
-  brown: "#5C3D2E",
-  lightBrown: "#8B6F47",
-  gold: "#D4AF37",
+  brown: "#8B6F3E",
   darkGray: "#333333",
+  black: "#000000",
   lightGray: "#F5F5F5",
   white: "#FFFFFF",
 };
