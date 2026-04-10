@@ -1,29 +1,36 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #0f0f0f;
-  --color-foreground: #e5e5e5;
+  /* Brand browns — source of truth for UI */
+  --color-brand: #8B6F3E;
+  --color-brand-light: #B8874A;
+  --color-brand-dim: #6B5530;
+  --color-brand-hover: #A07D48;
+
+  /* Neutrals — dark mode */
+  --color-bg: #0f0f0f;
   --color-surface: #1a1a1a;
   --color-surface-hover: #252525;
   --color-border: #2a2a2a;
-  --color-accent: #c9956b;
-  --color-accent-brown: #5C3D2E;
-  --color-accent-dim: #8b6f47;
+  --color-fg: #e5e5e5;
   --color-muted: #888888;
+  --color-placeholder: #666666;
   --color-danger: #ef4444;
   --color-danger-dim: #7f1d1d;
+
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 html {
-  background-color: #0f0f0f;
+  background-color: var(--color-bg);
   color-scheme: dark;
 }
 
 body {
-  background-color: #0f0f0f;
-  color: #e5e5e5;
+  background-color: var(--color-bg);
+  color: var(--color-fg);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -34,16 +41,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1a1a;
+  background: var(--color-surface);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #5C3D2E;
+  background: var(--color-brand);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #8b6f47;
+  background: var(--color-brand-light);
 }
 
 /* Dark date picker */
@@ -51,8 +58,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(0.7);
 }
 
-/* Force dark select dropdowns */
+/* Dark select dropdowns */
 select option {
-  background-color: #252525;
-  color: #e5e5e5;
+  background-color: var(--color-surface-hover);
+  color: var(--color-fg);
 }

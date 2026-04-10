@@ -32,7 +32,7 @@ export const PdfPreview: React.FC<PdfPreviewProps> = ({ formData }) => {
       </div>
 
       {/* Download Button */}
-      <div className="p-4 bg-[#1a1a1a] border-t border-[#2a2a2a]">
+      <div className="p-4 bg-surface border-t border-border">
         <BlobProvider
           document={
             <BudgetDocument
@@ -62,7 +62,7 @@ export const PdfPreview: React.FC<PdfPreviewProps> = ({ formData }) => {
                 }
               }}
               disabled={loading}
-              className="w-full bg-[#5C3D2E] text-white font-semibold py-3 rounded hover:bg-[#7a5240] transition disabled:opacity-50"
+              className="w-full bg-brand text-white font-semibold py-3 rounded hover:bg-brand-hover transition disabled:opacity-50"
             >
               {loading ? "Generando PDF..." : "Descargar PDF"}
             </button>

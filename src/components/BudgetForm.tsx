@@ -33,10 +33,10 @@ interface BudgetFormProps {
 }
 
 const inputClass =
-  "w-full bg-[#252525] border border-[#2a2a2a] rounded px-3 py-2 text-sm text-[#e5e5e5] placeholder-[#666] focus:border-[#5C3D2E] focus:outline-none focus:ring-1 focus:ring-[#5C3D2E]";
+  "w-full bg-surface-hover border border-border rounded px-3 py-2 text-sm text-fg placeholder-placeholder focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand";
 const inputSmClass =
-  "w-full bg-[#252525] border border-[#2a2a2a] rounded px-3 py-2 text-xs text-[#e5e5e5] placeholder-[#666] focus:border-[#5C3D2E] focus:outline-none focus:ring-1 focus:ring-[#5C3D2E]";
-const labelClass = "block text-sm font-semibold text-[#c9956b] mb-1";
+  "w-full bg-surface-hover border border-border rounded px-3 py-2 text-xs text-fg placeholder-placeholder focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand";
+const labelClass = "block text-sm font-semibold text-brand-light mb-1";
 
 export const BudgetForm: React.FC<BudgetFormProps> = ({
   onFormChange,
@@ -160,8 +160,8 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
   };
 
   return (
-    <div className="w-full bg-[#1a1a1a] rounded-lg border border-[#2a2a2a] p-6 max-w-md">
-      <h2 className="text-2xl font-bold mb-6 text-[#c9956b]">
+    <div className="w-full bg-surface rounded-lg border border-border p-6 max-w-md">
+      <h2 className="text-2xl font-bold mb-6 text-brand-light">
         Nuevo Presupuesto
       </h2>
 
@@ -246,19 +246,19 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
       </div>
 
       {/* Total */}
-      <div className="mb-6 p-4 bg-[#252525] rounded-lg border border-[#2a2a2a]">
+      <div className="mb-6 p-4 bg-surface-hover rounded-lg border border-border">
         <div className="flex justify-between items-center">
-          <span className="text-sm font-semibold text-[#888]">TOTAL:</span>
-          <span className="text-lg font-bold text-[#c9956b]">
+          <span className="text-sm font-semibold text-muted">TOTAL:</span>
+          <span className="text-lg font-bold text-brand-light">
             {formatCurrency(total)}
           </span>
         </div>
-        <p className="text-xs text-[#666] mt-2">(IVA incluido)</p>
+        <p className="text-xs text-placeholder mt-2">(IVA incluido)</p>
       </div>
 
       {/* Include Items */}
       <div className="mb-4">
-        <h3 className="text-sm font-semibold text-[#c9956b] mb-2">INCLUYE:</h3>
+        <h3 className="text-sm font-semibold text-brand-light mb-2">INCLUYE:</h3>
         <div className="space-y-2 max-h-40 overflow-y-auto">
           {formData.includeItems.map((item, idx) => (
             <input
@@ -274,7 +274,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
 
       {/* Exclude Items */}
       <div className="mb-4">
-        <h3 className="text-sm font-semibold text-[#c9956b] mb-2">
+        <h3 className="text-sm font-semibold text-brand-light mb-2">
           NO INCLUYE:
         </h3>
         <div className="space-y-2 max-h-40 overflow-y-auto">
@@ -292,7 +292,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
 
       {/* Payment Stages */}
       <div className="mb-4">
-        <h3 className="text-sm font-semibold text-[#c9956b] mb-2">
+        <h3 className="text-sm font-semibold text-brand-light mb-2">
           FORMA DE PAGO:
         </h3>
         <div className="space-y-2 max-h-40 overflow-y-auto">
@@ -304,8 +304,8 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
                 onChange={(e) =>
                   handlePaymentStageChange(idx, "description", e.target.value)
                 }
-                className="flex-1 bg-[#252525] border border-[#2a2a2a] rounded px-2 py-1 text-xs text-[#e5e5e5] focus:border-[#5C3D2E] focus:outline-none"
-                placeholder="Descripción"
+                className="flex-1 bg-surface-hover border border-border rounded px-2 py-1 text-xs text-fg focus:border-brand focus:outline-none"
+                placeholder="Descripcion"
               />
               <input
                 type="number"
@@ -313,13 +313,13 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
                 onChange={(e) =>
                   handlePaymentStageChange(idx, "percent", e.target.value)
                 }
-                className="w-16 bg-[#252525] border border-[#2a2a2a] rounded px-2 py-1 text-xs text-[#e5e5e5] focus:border-[#5C3D2E] focus:outline-none"
+                className="w-16 bg-surface-hover border border-border rounded px-2 py-1 text-xs text-fg focus:border-brand focus:outline-none"
                 placeholder="%"
               />
               {formData.paymentStages.length > 1 && (
                 <button
                   onClick={() => handleRemovePaymentStage(idx)}
-                  className="text-[#ef4444] text-xs font-bold hover:text-red-400"
+                  className="text-danger text-xs font-bold hover:text-red-400"
                 >
                   ✕
                 </button>
@@ -329,7 +329,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
         </div>
         <button
           onClick={handleAddPaymentStage}
-          className="mt-2 text-xs bg-[#252525] text-[#c9956b] border border-[#2a2a2a] px-3 py-1 rounded hover:bg-[#333] transition"
+          className="mt-2 text-xs bg-surface-hover text-brand-light border border-border px-3 py-1 rounded hover:bg-border transition"
         >
           + Agregar etapa
         </button>
@@ -337,7 +337,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
 
       {/* Validity Days */}
       <div className="mb-6">
-        <label className={labelClass}>Validez (días)</label>
+        <label className={labelClass}>Validez (dias)</label>
         <input
           type="number"
           name="validityDays"
@@ -350,7 +350,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
       {/* Save to History Button */}
       <button
         onClick={handleSaveToHistory}
-        className="w-full bg-[#5C3D2E] text-[#e5e5e5] font-semibold py-2 rounded hover:bg-[#7a5240] transition text-sm"
+        className="w-full bg-brand text-fg font-semibold py-2 rounded hover:bg-brand-hover transition text-sm"
       >
         Guardar en historial
       </button>

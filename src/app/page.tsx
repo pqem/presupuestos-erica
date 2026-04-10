@@ -6,12 +6,11 @@ import { BudgetForm, BudgetFormData } from "@/components/BudgetForm";
 import { BudgetHistory } from "@/components/BudgetHistory";
 import { ERICA_INFO } from "@/lib/constants";
 
-// Dynamically import PdfPreview (no SSR)
 const PdfPreview = dynamic(() =>
   import("@/components/PdfPreview").then((mod) => mod.PdfPreview),
   {
     ssr: false,
-    loading: () => <div className="flex items-center justify-center h-full text-[#888]">Cargando PDF...</div>,
+    loading: () => <div className="flex items-center justify-center h-full text-muted">Cargando PDF...</div>,
   }
 );
 
@@ -45,13 +44,13 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#0f0f0f]">
+    <div className="flex flex-col min-h-screen bg-bg">
       {/* Header */}
-      <header className="bg-[#1a1a1a] border-b border-[#2a2a2a]">
+      <header className="bg-surface border-b border-border">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-[#c9956b]">{ERICA_INFO.name}</h1>
-          <p className="text-[#8b6f47]">{ERICA_INFO.title}</p>
-          <p className="text-xs text-[#666] mt-1">{ERICA_INFO.license}</p>
+          <h1 className="text-3xl font-bold text-brand-light">{ERICA_INFO.name}</h1>
+          <p className="text-brand-dim">{ERICA_INFO.title}</p>
+          <p className="text-xs text-placeholder mt-1">{ERICA_INFO.license}</p>
         </div>
       </header>
 
@@ -71,7 +70,7 @@ export default function Home() {
 
           {/* Right Side: PDF Preview */}
           {isMounted && (
-            <div className="hidden lg:flex flex-col bg-[#1a1a1a] rounded-lg border border-[#2a2a2a] overflow-hidden h-full">
+            <div className="hidden lg:flex flex-col bg-surface rounded-lg border border-border overflow-hidden h-full">
               <PdfPreview formData={formData} />
             </div>
           )}
@@ -79,22 +78,22 @@ export default function Home() {
 
         {/* Mobile PDF Section */}
         <div className="lg:hidden mt-8">
-          <h2 className="text-xl font-bold mb-4 text-[#c9956b]">
+          <h2 className="text-xl font-bold mb-4 text-brand-light">
             Vista previa PDF
           </h2>
-          <div className="bg-[#1a1a1a] rounded-lg border border-[#2a2a2a] overflow-hidden" style={{ height: "600px" }}>
+          <div className="bg-surface rounded-lg border border-border overflow-hidden" style={{ height: "600px" }}>
             {isMounted && <PdfPreview formData={formData} />}
           </div>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#1a1a1a] border-t border-[#2a2a2a] py-4 mt-8">
-        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-[#888]">
+      <footer className="bg-surface border-t border-border py-4 mt-8">
+        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-muted">
           <p>{ERICA_INFO.email}</p>
           <p>Tel {ERICA_INFO.phone}</p>
           <p>{ERICA_INFO.address}</p>
-          <p className="mt-2 text-xs text-[#5C3D2E]">{ERICA_INFO.website}</p>
+          <p className="mt-2 text-xs text-brand-dim">{ERICA_INFO.website}</p>
         </div>
       </footer>
     </div>

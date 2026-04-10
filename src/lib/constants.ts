@@ -72,12 +72,19 @@ export const DEFAULT_PAYMENT_STAGES: PaymentStage[] = [
   { percent: 50, description: "Al finalizar el trabajo con el sellado y visado de planos definitivo" },
 ];
 
-// Color scheme
-export const COLORS = {
+// Brand colors — single source of truth for PDF rendering
+// UI uses CSS variables from globals.css (same values)
+export const BRAND_COLORS = {
   brown: "#8B6F3E",
-  darkGray: "#333333",
+  brownLight: "#B8874A",
+  brownDim: "#6B5530",
+};
+
+// PDF-specific colors (used only by BudgetDocument.tsx)
+export const COLORS = {
+  brown: BRAND_COLORS.brown,
   black: "#000000",
-  lightGray: "#F5F5F5",
+  darkGray: "#333333",
   white: "#FFFFFF",
 };
 
