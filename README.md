@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Presupuestos Erica Avalos
 
-## Getting Started
+Generador de presupuestos profesionales en PDF para Erica Avalos, Maestro Mayor de Obras / Gasista Matriculada.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router, TypeScript)
+- **React-PDF** (@react-pdf/renderer) para generacion de PDF
+- **Tailwind CSS v4** para estilos (dark mode)
+- **Vercel** para deploy
+
+## Tipos de presupuesto
+
+| Tipo | Estado |
+|---|---|
+| Planos de Obra Nueva | Implementado |
+| Planos Conforme a Obra | Implementado |
+| Instalacion de Gas (Camuzzi) | Pendiente |
+
+## Desarrollo local
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+El proyecto esta conectado a Vercel. Cada push a `master` despliega automaticamente.
 
-## Learn More
+```bash
+# Deploy manual
+vercel --prod
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Estructura
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+  app/
+    page.tsx              Pagina principal (formulario + preview PDF)
+    layout.tsx            Layout root con metadata
+    globals.css           Dark mode, Tailwind v4
+  components/
+    BudgetForm.tsx        Formulario de presupuesto
+    BudgetHistory.tsx     Historial local (localStorage)
+    PdfPreview.tsx        Vista previa y descarga de PDF
+    pdf/
+      BudgetDocument.tsx  Template PDF (Montserrat + PT Sans)
+  lib/
+    constants.ts          Datos de Erica, tipos de presupuesto, colores
+    utils.ts              Formateo moneda argentina, calculos, localStorage
+public/
+  fonts/                  Montserrat (Black, Bold) + PT Sans (Regular, Bold)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tipografia del PDF
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Montserrat Black** — titulo "PRESUPUESTO"
+- **Montserrat Bold** — subtitulo del tipo de obra
+- **PT Sans Bold** — cliente, headers, firma, numeros resaltados
+- **PT Sans Regular** — cuerpo del texto, bullets, etapas de pago
