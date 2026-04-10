@@ -1,12 +1,21 @@
 // Format currency in Argentine style ($ with dots for thousands, comma for decimals)
+// Omits decimals when they are .00
 export function formatCurrency(amount: number): string {
   const formatter = new Intl.NumberFormat("es-AR", {
     style: "currency",
     currency: "ARS",
-    minimumFractionDigits: 2,
+    minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   });
-  return formatter.format(amount);
+
+  const formatted = formatter.format(amount);
+
+  // If amount has no decimal part, remove the ,00
+  if (Math.round(amount) === amount) {
+    return formatted.replace(/,00$/, "");
+  }
+
+  return formatted;
 }
 
 // Format amount without currency symbol in Argentine style
@@ -34,6 +43,18 @@ export function formatDate(date: Date): string {
 // Calculate total: surface × price per m2
 export function calculateTotal(surfaceM2: number, pricePerM2: number): number {
   return surfaceM2 * pricePerM2;
+}
+
+// Convert number to Spanish words (1-5)
+export function numberToWords(n: number): string {
+  const words: Record<number, string> = {
+    1: "una",
+    2: "dos",
+    3: "tres",
+    4: "cuatro",
+    5: "cinco",
+  };
+  return words[n] || n.toString();
 }
 
 // Calculate payment amounts based on stages
