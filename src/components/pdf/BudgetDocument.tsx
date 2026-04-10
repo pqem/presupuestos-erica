@@ -5,7 +5,6 @@ import {
   Text,
   View,
   StyleSheet,
-  Font,
 } from "@react-pdf/renderer";
 import {
   ERICA_INFO,
@@ -13,7 +12,7 @@ import {
   BUDGET_TYPES,
   BudgetType,
 } from "@/lib/constants";
-import { formatCurrency, formatDate, formatNumber } from "@/lib/utils";
+import { formatCurrency, formatDate, formatNumber, numberToWords } from "@/lib/utils";
 
 interface PaymentStage {
   percent: number;
@@ -35,68 +34,79 @@ interface BudgetDocumentProps {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 40,
+    padding: 50,
+    paddingRight: 50,
+    paddingLeft: 50,
+    paddingTop: 40,
+    paddingBottom: 80,
     fontFamily: "Helvetica",
     fontSize: 11,
-    lineHeight: 1.5,
+    lineHeight: 1.6,
     backgroundColor: COLORS.white,
+    position: "relative",
   },
-  header: {
-    marginBottom: 30,
-    borderBottomWidth: 3,
-    borderBottomColor: COLORS.brown,
-    paddingBottom: 15,
-  },
-  headerTop: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginBottom: 20,
-  },
-  headerLeft: {
-    flex: 1,
-  },
-  headerRight: {
+  // Date in top right
+  dateContainer: {
+    position: "absolute",
+    top: 30,
+    right: 50,
+    width: 200,
     textAlign: "right",
   },
   date: {
     fontSize: 10,
     color: COLORS.darkGray,
-    marginBottom: 5,
+  },
+  // Title section (no border underneath)
+  titleSection: {
+    marginTop: 10,
+    marginBottom: 30,
   },
   title: {
-    fontSize: 32,
-    fontWeight: "bold",
+    fontSize: 36,
+    fontFamily: "Helvetica-Bold",
     color: COLORS.brown,
-    marginBottom: 5,
-    letterSpacing: 2,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: COLORS.lightBrown,
-    letterSpacing: 1,
-  },
-  section: {
-    marginBottom: 20,
-  },
-  sectionTitle: {
-    fontSize: 12,
-    fontWeight: "bold",
-    color: COLORS.brown,
-    marginBottom: 10,
-    marginTop: 15,
+    marginBottom: 8,
+    letterSpacing: 3.5,
     textTransform: "uppercase",
   },
-  label: {
-    fontWeight: "bold",
-    color: COLORS.darkGray,
+  subtitle: {
+    fontSize: 16,
+    fontFamily: "Helvetica-Bold",
+    color: COLORS.lightBrown,
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
   },
+  // Body sections
+  section: {
+    marginBottom: 15,
+  },
+  // Client name
   clientName: {
-    fontSize: 13,
-    fontWeight: "bold",
+    fontSize: 12,
+    fontFamily: "Helvetica-Bold",
     color: COLORS.darkGray,
     marginBottom: 15,
   },
+  // Intro paragraph with inline bold
+  paragraph: {
+    fontSize: 11,
+    lineHeight: 1.6,
+    marginBottom: 15,
+    textAlign: "justify",
+  },
+  bold: {
+    fontFamily: "Helvetica-Bold",
+  },
+  // Section headers (INCLUYE, NO INCLUYE) - bold black, not brown
+  sectionHeader: {
+    fontSize: 11,
+    fontFamily: "Helvetica-Bold",
+    color: COLORS.darkGray,
+    marginBottom: 10,
+    marginTop: 15,
+  },
+  // Bullet list
   bulletList: {
     marginLeft: 15,
     marginBottom: 15,
@@ -106,7 +116,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   bullet: {
-    width: 15,
+    width: 12,
     fontSize: 11,
   },
   bulletText: {
@@ -114,67 +124,21 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: COLORS.darkGray,
   },
-  calculationBox: {
-    backgroundColor: COLORS.lightGray,
-    padding: 15,
-    marginBottom: 20,
-    borderRadius: 4,
-  },
-  calculationRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 8,
+  // Calculation paragraph (flowing text, not a box)
+  calculationParagraph: {
     fontSize: 11,
+    lineHeight: 1.6,
+    marginBottom: 15,
+    textAlign: "justify",
   },
-  calculationLabel: {
-    flex: 1,
-  },
-  calculationValue: {
-    fontWeight: "bold",
-    minWidth: 120,
-    textAlign: "right",
-  },
-  totalRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 10,
-    paddingTop: 10,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.brown,
-  },
-  totalLabel: {
-    fontWeight: "bold",
-    fontSize: 12,
-    color: COLORS.brown,
-  },
-  totalValue: {
-    fontWeight: "bold",
-    fontSize: 12,
-    color: COLORS.brown,
-    minWidth: 120,
-    textAlign: "right",
-  },
-  paymentStagesTitle: {
-    fontSize: 12,
-    fontWeight: "bold",
-    color: COLORS.brown,
-    marginBottom: 10,
-    marginTop: 15,
-    textTransform: "uppercase",
-  },
-  paymentStageRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  // Payment stages text (inline, not a table)
+  paymentStageText: {
+    fontSize: 11,
+    lineHeight: 1.6,
     marginBottom: 6,
-    fontSize: 10,
+    marginLeft: 15,
   },
-  paymentStageDescription: {
-    flex: 1,
-  },
-  paymentStageAmount: {
-    minWidth: 120,
-    textAlign: "right",
-  },
+  // Validity text
   validityText: {
     fontSize: 10,
     color: COLORS.darkGray,
@@ -182,47 +146,53 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     lineHeight: 1.6,
   },
-  signatureBlock: {
-    marginTop: 30,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.brown,
-    paddingTop: 20,
-    textAlign: "center",
+  // "Atte.-" before signature
+  attestation: {
+    fontSize: 11,
+    fontFamily: "Helvetica-Bold",
+    color: COLORS.darkGray,
+    marginTop: 25,
+    marginBottom: 10,
   },
-  signatureLine: {
-    borderTopWidth: 1,
-    borderTopColor: COLORS.darkGray,
-    marginBottom: 8,
-    height: 50,
+  // Signature block (LEFT aligned, not centered)
+  signatureBlock: {
+    marginTop: 15,
+    textAlign: "left",
   },
   signatureName: {
-    fontSize: 11,
-    fontWeight: "bold",
+    fontSize: 12,
+    fontFamily: "Helvetica-Bold",
     color: COLORS.brown,
-    marginBottom: 4,
+    marginBottom: 3,
   },
   signatureTitle: {
-    fontSize: 10,
-    color: COLORS.darkGray,
+    fontSize: 11,
+    fontFamily: "Helvetica-Bold",
+    color: COLORS.brown,
     marginBottom: 2,
   },
   signatureLicense: {
-    fontSize: 9,
-    color: COLORS.darkGray,
-  },
-  footer: {
-    fontSize: 9,
-    color: COLORS.darkGray,
-    textAlign: "center",
-    marginTop: 40,
-    paddingTop: 15,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.lightGray,
-    lineHeight: 1.5,
-  },
-  footerDivider: {
+    fontSize: 10,
+    fontFamily: "Helvetica-Bold",
     color: COLORS.brown,
-    marginVertical: 2,
+  },
+  // Footer (RIGHT aligned at bottom)
+  footer: {
+    position: "absolute",
+    bottom: 20,
+    right: 50,
+    width: 300,
+    textAlign: "right",
+    fontSize: 8,
+    lineHeight: 1.4,
+  },
+  footerLine: {
+    color: COLORS.darkGray,
+    marginBottom: 2,
+  },
+  footerWebsite: {
+    color: COLORS.brown,
+    fontFamily: "Helvetica-Bold",
   },
 });
 
@@ -240,20 +210,21 @@ export const BudgetDocument: React.FC<BudgetDocumentProps> = ({
 }) => {
   const budgetTypeInfo = BUDGET_TYPES[budgetType];
   const total = surfaceM2 * pricePerM2;
+  const numStages = paymentStages.length;
+  const stagesWord = numberToWords(numStages);
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.headerTop}>
-            <View style={styles.headerLeft}>
-              <Text style={styles.date}>
-                {location}, {formatDate(date)}
-              </Text>
-            </View>
-          </View>
+        {/* Date in top right */}
+        <View style={styles.dateContainer}>
+          <Text style={styles.date}>
+            {location}, {formatDate(date)}
+          </Text>
+        </View>
 
+        {/* Title section */}
+        <View style={styles.titleSection}>
           <Text style={styles.title}>PRESUPUESTO</Text>
           <Text style={styles.subtitle}>{budgetTypeInfo.label}</Text>
         </View>
@@ -263,16 +234,18 @@ export const BudgetDocument: React.FC<BudgetDocumentProps> = ({
           <Text style={styles.clientName}>Sr. {clientName.toUpperCase()}</Text>
         </View>
 
-        {/* Price per m2 */}
+        {/* Intro paragraph — same text as original, variables are dynamic */}
         <View style={styles.section}>
-          <Text style={styles.label}>
-            Precio por m²: {formatCurrency(pricePerM2)}
+          <Text style={styles.paragraph}>
+            Se presupuesta por elaboración, trámites y visado definitivo de
+            planos para <Text style={styles.bold}>{budgetTypeInfo.shortLabel}</Text> el valor de:{" "}
+            <Text style={styles.bold}>{formatCurrency(pricePerM2)} por m2</Text>.
           </Text>
         </View>
 
         {/* Includes */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>INCLUYE:</Text>
+          <Text style={styles.sectionHeader}>INCLUYE:</Text>
           <View style={styles.bulletList}>
             {includeItems.map((item, idx) => (
               <View key={idx} style={styles.bulletItem}>
@@ -285,7 +258,7 @@ export const BudgetDocument: React.FC<BudgetDocumentProps> = ({
 
         {/* Excludes */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>NO INCLUYE:</Text>
+          <Text style={styles.sectionHeader}>NO INCLUYE:</Text>
           <View style={styles.bulletList}>
             {excludeItems.map((item, idx) => (
               <View key={idx} style={styles.bulletItem}>
@@ -296,66 +269,51 @@ export const BudgetDocument: React.FC<BudgetDocumentProps> = ({
           </View>
         </View>
 
-        {/* Calculation */}
-        <View style={styles.calculationBox}>
-          <View style={styles.calculationRow}>
-            <Text style={styles.calculationLabel}>Superficie:</Text>
-            <Text style={styles.calculationValue}>
-              {formatNumber(surfaceM2)} m²
-            </Text>
-          </View>
-          <View style={styles.calculationRow}>
-            <Text style={styles.calculationLabel}>Precio por m²:</Text>
-            <Text style={styles.calculationValue}>
-              {formatCurrency(pricePerM2)}
-            </Text>
-          </View>
-          <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>TOTAL:</Text>
-            <Text style={styles.totalValue}>{formatCurrency(total)}</Text>
-          </View>
-          <Text style={{ fontSize: 9, marginTop: 8, color: COLORS.darkGray }}>
-            (IVA incluido)
+        {/* Calculation paragraph (flowing text, not a box) */}
+        <View style={styles.section}>
+          <Text style={styles.calculationParagraph}>
+            Estimando una superficie cubierta de{" "}
+            <Text style={styles.bold}>{formatNumber(surfaceM2)} m2</Text> el total es de{" "}
+            <Text style={styles.bold}>{formatCurrency(total)}</Text> (IVA
+            incluido) en concepto de honorarios. El pago de los mismos se
+            realizará en {stagesWord} etapas conforme avanza la elaboración y
+            tramitación de los planos, a saber:
           </Text>
         </View>
 
-        {/* Payment Stages */}
+        {/* Payment stages (inline text, not a table) */}
         <View style={styles.section}>
-          <Text style={styles.paymentStagesTitle}>FORMA DE PAGO:</Text>
-          {paymentStages.map((stage, idx) => (
-            <View key={idx} style={styles.paymentStageRow}>
-              <Text style={styles.paymentStageDescription}>
-                {stage.description} ({stage.percent}%):
+          {paymentStages.map((stage, idx) => {
+            const stageAmount = (total * stage.percent) / 100;
+            return (
+              <Text key={idx} style={styles.paymentStageText}>
+                {stage.percent}% ({formatCurrency(stageAmount)}) {stage.description}.
               </Text>
-              <Text style={styles.paymentStageAmount}>
-                {formatCurrency((total * stage.percent) / 100)}
-              </Text>
-            </View>
-          ))}
+            );
+          })}
         </View>
 
         {/* Validity */}
         <Text style={styles.validityText}>
-          Presupuesto válido por {validityDays} días desde la fecha.
+          Se extiende el presente presupuesto por una plazo de {validityDays}{" "}
+          días hábiles.
         </Text>
 
-        {/* Signature Block */}
+        {/* Attestation and Signature Block */}
+        <Text style={styles.attestation}>Atte.-</Text>
+
         <View style={styles.signatureBlock}>
-          <View style={styles.signatureLine} />
           <Text style={styles.signatureName}>{ERICA_INFO.name}</Text>
           <Text style={styles.signatureTitle}>{ERICA_INFO.title}</Text>
           <Text style={styles.signatureLicense}>{ERICA_INFO.license}</Text>
         </View>
 
-        {/* Footer */}
+        {/* Footer (RIGHT aligned at bottom) */}
         <View style={styles.footer}>
-          <Text>{ERICA_INFO.email}</Text>
-          <Text style={styles.footerDivider}>●</Text>
-          <Text>Tel {ERICA_INFO.phone}</Text>
-          <Text style={styles.footerDivider}>●</Text>
-          <Text>{ERICA_INFO.address}</Text>
-          <Text style={styles.footerDivider}>●</Text>
-          <Text>{ERICA_INFO.website}</Text>
+          <Text style={styles.footerLine}>{ERICA_INFO.displayName} • {ERICA_INFO.title}</Text>
+          <Text style={styles.footerLine}>{ERICA_INFO.email} / Tel {ERICA_INFO.phone}</Text>
+          <Text style={styles.footerLine}>{ERICA_INFO.address}</Text>
+          <Text style={styles.footerWebsite}>{ERICA_INFO.website}</Text>
         </View>
       </Page>
     </Document>

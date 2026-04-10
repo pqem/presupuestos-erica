@@ -1,6 +1,7 @@
 // Professional data for Erica Avalos
 export const ERICA_INFO = {
   name: "ERICA AVALOS",
+  displayName: "Erica Avalos",
   title: "MAESTRO MAYOR DE OBRAS",
   license: "MTR. TECA00241",
   email: "info@eriaavalos.com.ar",
@@ -14,6 +15,7 @@ export type BudgetType = "obra-nueva" | "conforme-a-obras" | "gas";
 
 export interface BudgetTypeDefinition {
   label: string;
+  shortLabel: string;
   includeItems: string[];
   excludeItems: string[];
   enabled: boolean;
@@ -22,6 +24,7 @@ export interface BudgetTypeDefinition {
 export const BUDGET_TYPES: Record<BudgetType, BudgetTypeDefinition> = {
   "obra-nueva": {
     label: "PLANOS DE OBRA NUEVA",
+    shortLabel: "OBRA NUEVA",
     includeItems: [
       "Anteproyecto y maquetación 3D.",
       "Planos de Arquitectura y silueta de superficies.",
@@ -37,7 +40,8 @@ export const BUDGET_TYPES: Record<BudgetType, BudgetTypeDefinition> = {
     enabled: true,
   },
   "conforme-a-obras": {
-    label: "CONFORME A OBRAS",
+    label: "PLANOS CONFORME A OBRAS",
+    shortLabel: "CONFORME A OBRAS",
     includeItems: [
       "Anteproyecto y maquetación 3D.",
       "Planos de Arquitectura y silueta de superficies.",
@@ -50,6 +54,7 @@ export const BUDGET_TYPES: Record<BudgetType, BudgetTypeDefinition> = {
   },
   gas: {
     label: "GAS",
+    shortLabel: "GAS",
     includeItems: [],
     excludeItems: [],
     enabled: false,
@@ -63,8 +68,8 @@ export interface PaymentStage {
 }
 
 export const DEFAULT_PAYMENT_STAGES: PaymentStage[] = [
-  { percent: 50, description: "Anticipo" },
-  { percent: 50, description: "A la entrega de planos" },
+  { percent: 50, description: "Al iniciar el trabajo" },
+  { percent: 50, description: "Al finalizar el trabajo con el sellado y visado de planos definitivo" },
 ];
 
 // Color scheme
