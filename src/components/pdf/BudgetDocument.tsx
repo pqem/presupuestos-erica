@@ -34,18 +34,15 @@ interface BudgetDocumentProps {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 50,
-    paddingRight: 50,
-    paddingLeft: 50,
-    paddingTop: 40,
-    paddingBottom: 80,
+    paddingHorizontal: 50,
+    paddingTop: 35,
+    paddingBottom: 65,
     fontFamily: "Helvetica",
     fontSize: 11,
-    lineHeight: 1.6,
+    lineHeight: 1.4,
     backgroundColor: COLORS.white,
     position: "relative",
   },
-  // Date in top right
   dateContainer: {
     position: "absolute",
     top: 30,
@@ -57,63 +54,57 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: COLORS.darkGray,
   },
-  // Title section (no border underneath)
   titleSection: {
-    marginTop: 10,
-    marginBottom: 30,
+    marginTop: 5,
+    marginBottom: 18,
   },
   title: {
-    fontSize: 36,
+    fontSize: 30,
     fontFamily: "Helvetica-Bold",
     color: COLORS.brown,
-    marginBottom: 8,
-    letterSpacing: 3.5,
+    marginBottom: 4,
+    letterSpacing: 3,
     textTransform: "uppercase",
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: "Helvetica-Bold",
     color: COLORS.lightBrown,
     letterSpacing: 1.5,
     textTransform: "uppercase",
   },
-  // Body sections
   section: {
-    marginBottom: 15,
+    marginBottom: 6,
   },
-  // Client name
   clientName: {
-    fontSize: 12,
+    fontSize: 11,
     fontFamily: "Helvetica-Bold",
     color: COLORS.darkGray,
-    marginBottom: 15,
+    marginBottom: 8,
   },
-  // Intro paragraph with inline bold
   paragraph: {
     fontSize: 11,
-    lineHeight: 1.6,
-    marginBottom: 15,
+    lineHeight: 1.4,
+    marginBottom: 6,
     textAlign: "justify",
   },
   bold: {
     fontFamily: "Helvetica-Bold",
   },
-  // Section headers (INCLUYE, NO INCLUYE) - bold black, not brown
   sectionHeader: {
     fontSize: 11,
     fontFamily: "Helvetica-Bold",
     color: COLORS.darkGray,
-    marginBottom: 10,
-    marginTop: 15,
+    marginBottom: 4,
+    marginTop: 6,
   },
-  // Bullet list
   bulletList: {
     marginLeft: 15,
-    marginBottom: 15,
+    marginBottom: 4,
   },
   bulletItem: {
     flexDirection: "row",
-    marginBottom: 8,
+    marginBottom: 3,
   },
   bullet: {
     width: 12,
@@ -124,71 +115,65 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: COLORS.darkGray,
   },
-  // Calculation paragraph (flowing text, not a box)
   calculationParagraph: {
     fontSize: 11,
-    lineHeight: 1.6,
-    marginBottom: 15,
+    lineHeight: 1.4,
+    marginBottom: 4,
     textAlign: "justify",
   },
-  // Payment stages text (inline, not a table)
   paymentStageText: {
     fontSize: 11,
-    lineHeight: 1.6,
-    marginBottom: 6,
+    lineHeight: 1.4,
+    marginBottom: 2,
     marginLeft: 15,
   },
-  // Validity text
   validityText: {
     fontSize: 10,
     color: COLORS.darkGray,
-    marginTop: 15,
-    marginBottom: 15,
-    lineHeight: 1.6,
+    marginTop: 8,
+    marginBottom: 6,
+    lineHeight: 1.4,
   },
-  // "Atte.-" before signature
   attestation: {
     fontSize: 11,
     fontFamily: "Helvetica-Bold",
     color: COLORS.darkGray,
-    marginTop: 25,
-    marginBottom: 10,
+    marginTop: 12,
+    marginBottom: 4,
   },
-  // Signature block (LEFT aligned, not centered)
   signatureBlock: {
-    marginTop: 15,
+    marginTop: 5,
     textAlign: "left",
   },
   signatureName: {
-    fontSize: 12,
-    fontFamily: "Helvetica-Bold",
-    color: COLORS.brown,
-    marginBottom: 3,
-  },
-  signatureTitle: {
     fontSize: 11,
     fontFamily: "Helvetica-Bold",
     color: COLORS.brown,
     marginBottom: 2,
   },
-  signatureLicense: {
+  signatureTitle: {
     fontSize: 10,
     fontFamily: "Helvetica-Bold",
     color: COLORS.brown,
+    marginBottom: 1,
   },
-  // Footer (RIGHT aligned at bottom)
+  signatureLicense: {
+    fontSize: 9,
+    fontFamily: "Helvetica-Bold",
+    color: COLORS.brown,
+  },
   footer: {
     position: "absolute",
-    bottom: 20,
+    bottom: 15,
     right: 50,
     width: 300,
     textAlign: "right",
     fontSize: 8,
-    lineHeight: 1.4,
+    lineHeight: 1.3,
   },
   footerLine: {
     color: COLORS.darkGray,
-    marginBottom: 2,
+    marginBottom: 1,
   },
   footerWebsite: {
     color: COLORS.brown,
