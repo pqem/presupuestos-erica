@@ -1,35 +1,33 @@
 @import "tailwindcss";
 
-:root {
-  --background: #0f0f0f;
-  --foreground: #e5e5e5;
-  --surface: #1a1a1a;
-  --surface-hover: #252525;
-  --border: #2a2a2a;
-  --border-accent: #5C3D2E;
-  --accent: #c9956b;
-  --accent-bright: #e0b08a;
-  --accent-dim: #8b6f47;
-  --text-muted: #888888;
-  --text-secondary: #aaaaaa;
-  --danger: #ef4444;
-  --danger-dim: #7f1d1d;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: #0f0f0f;
+  --color-foreground: #e5e5e5;
+  --color-surface: #1a1a1a;
+  --color-surface-hover: #252525;
+  --color-border: #2a2a2a;
+  --color-accent: #c9956b;
+  --color-accent-brown: #5C3D2E;
+  --color-accent-dim: #8b6f47;
+  --color-muted: #888888;
+  --color-danger: #ef4444;
+  --color-danger-dim: #7f1d1d;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  background-color: #0f0f0f;
+  color-scheme: dark;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background-color: #0f0f0f;
+  color: #e5e5e5;
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Scrollbar styling */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -48,7 +46,13 @@ body {
   background: #8b6f47;
 }
 
-/* Input dark mode overrides */
+/* Dark date picker */
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(0.7);
+}
+
+/* Force dark select dropdowns */
+select option {
+  background-color: #252525;
+  color: #e5e5e5;
 }
