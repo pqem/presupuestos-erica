@@ -44,18 +44,24 @@ export function generateObraHtml(data: ObraBudgetData): string {
   <style>
     @page {
       size: A4;
-      margin: 25mm;
+      margin: 0;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 210mm;
+      min-height: 297mm;
+    }
     body {
+      display: flex;
+      flex-direction: column;
+      padding: 25mm;
       font-family: 'Open Sans', sans-serif;
       font-size: 10pt;
       line-height: 1.3;
       color: #000;
-      width: 210mm;
-      min-height: 297mm;
-      padding: 25mm;
-      position: relative;
+    }
+    .content {
+      flex: 1;
     }
     .date {
       text-align: right;
@@ -132,23 +138,18 @@ export function generateObraHtml(data: ObraBudgetData): string {
     .signature .sig-title { font-size: 9pt; }
     .signature .license { font-size: 8pt; }
     .footer {
-      position: fixed;
-      bottom: 25mm;
-      left: 25mm;
-      right: 25mm;
+      margin-top: 40px;
+      padding-top: 10px;
+      border-top: 1px solid ${BRAND_COLORS.primary};
       text-align: right;
       font-size: 8pt;
       color: ${BRAND_COLORS.primary};
-      border-top: 2px solid ${BRAND_COLORS.primary};
-      padding-top: 6px;
       line-height: 1.4;
-    }
-    .footer .website {
-      color: ${BRAND_COLORS.primary};
     }
   </style>
 </head>
 <body>
+  <div class="content">
   <div class="date">${data.location}, ${formatDate(data.date)}</div>
 
   <div class="title">PRESUPUESTO</div>
@@ -194,13 +195,14 @@ export function generateObraHtml(data: ObraBudgetData): string {
     <p class="sig-title">${ERICA_INFO.title}</p>
     <p class="license">${ERICA_INFO.license}</p>
   </div>
+  </div>
 
-  <div class="footer">
+  <footer class="footer">
     <div>${ERICA_INFO.displayName} • ${ERICA_INFO.title}</div>
     <div>${ERICA_INFO.email} / Tel ${ERICA_INFO.phone}</div>
     <div>${ERICA_INFO.address}</div>
-    <div class="website">${ERICA_INFO.website}</div>
-  </div>
+    <div>${ERICA_INFO.website}</div>
+  </footer>
 </body>
 </html>`;
 }
