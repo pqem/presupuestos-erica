@@ -4,10 +4,10 @@ export const ERICA_INFO = {
   displayName: "Erica Avalos",
   title: "MAESTRO MAYOR DE OBRAS",
   license: "MTR. TECA00241",
-  email: "info@eriaavalos.com.ar",
+  email: "info@eriavalos.com.ar",
   phone: "299 594 3751",
   address: "Alicurá 665, Plottier - Neuquén",
-  website: "www.eriaavalos.com.ar",
+  website: "www.eriavalos.com.ar",
 };
 
 // Professional data for gasista role
@@ -16,10 +16,10 @@ export const GASISTA_INFO = {
   displayName: "Erica Avalos",
   title: "GASISTA MATRICULADA 1° CATEGORÍA",
   license: "MAT. 80229969",
-  email: "info@eriaavalos.com.ar",
+  email: "info@eriavalos.com.ar",
   phone: "299 594 3751",
   address: "Alicurá 665, Plottier - Neuquén",
-  website: "www.eriaavalos.com.ar",
+  website: "www.eriavalos.com.ar",
 };
 
 // Budget type definitions
