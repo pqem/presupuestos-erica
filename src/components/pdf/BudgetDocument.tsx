@@ -19,16 +19,16 @@ import { formatCurrency, formatDate, formatNumber, numberToWords } from "@/lib/u
 Font.register({
   family: "Montserrat",
   fonts: [
-    { src: "/fonts/Montserrat-Bold.woff", fontWeight: 700 },
-    { src: "/fonts/Montserrat-Black.woff", fontWeight: 900 },
+    { src: "/fonts/Montserrat-Bold.ttf", fontWeight: 700 },
+    { src: "/fonts/Montserrat-Black.ttf", fontWeight: 900 },
   ],
 });
 
 Font.register({
   family: "PTSans",
   fonts: [
-    { src: "/fonts/PTSans-Regular.woff", fontWeight: 400 },
-    { src: "/fonts/PTSans-Bold.woff", fontWeight: 700 },
+    { src: "/fonts/PTSans-Regular.ttf", fontWeight: 400 },
+    { src: "/fonts/PTSans-Bold.ttf", fontWeight: 700 },
   ],
 });
 
