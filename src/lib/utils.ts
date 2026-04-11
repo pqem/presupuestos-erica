@@ -80,8 +80,8 @@ export interface HistoryBudget {
   clientName: string;
   date: string;
   budgetType: string;
-  surfaceM2: number;
-  pricePerM2: number;
+  surfaceM2?: number;
+  pricePerM2?: number;
   total: number;
   data: Record<string, unknown>;
 }

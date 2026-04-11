@@ -2,9 +2,10 @@
 
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
-import { BudgetForm, BudgetFormData } from "@/components/BudgetForm";
+import { BudgetForm } from "@/components/BudgetForm";
 import { BudgetHistory } from "@/components/BudgetHistory";
-import { ERICA_INFO } from "@/lib/constants";
+import { ERICA_INFO, DEFAULT_PAYMENT_STAGES, DEFAULT_VALIDITY_DAYS, BUDGET_TYPES } from "@/lib/constants";
+import { BudgetFormData, ObraBudgetData } from "@/lib/types";
 
 const PdfPreview = dynamic(() =>
   import("@/components/PdfPreview").then((mod) => mod.PdfPreview),
@@ -21,11 +22,11 @@ const defaultFormData: BudgetFormData = {
   budgetType: "obra-nueva",
   pricePerM2: 0,
   surfaceM2: 0,
-  includeItems: [],
-  excludeItems: [],
-  paymentStages: [],
-  validityDays: 10,
-};
+  includeItems: [...BUDGET_TYPES["obra-nueva"].includeItems],
+  excludeItems: [...BUDGET_TYPES["obra-nueva"].excludeItems],
+  paymentStages: [...DEFAULT_PAYMENT_STAGES],
+  validityDays: DEFAULT_VALIDITY_DAYS,
+} as ObraBudgetData;
 
 export default function Home() {
   const [formData, setFormData] = useState<BudgetFormData>(defaultFormData);

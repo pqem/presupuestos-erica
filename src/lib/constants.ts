@@ -10,8 +10,29 @@ export const ERICA_INFO = {
   website: "www.eriaavalos.com.ar",
 };
 
+// Professional data for gasista role
+export const GASISTA_INFO = {
+  name: "ERICA AVALOS",
+  displayName: "Erica Avalos",
+  title: "GASISTA MATRICULADA 1° CATEGORÍA",
+  license: "MAT. 80229969",
+  email: "info@eriaavalos.com.ar",
+  phone: "299 594 3751",
+  address: "Alicurá 665, Plottier - Neuquén",
+  website: "www.eriaavalos.com.ar",
+};
+
 // Budget type definitions
 export type BudgetType = "obra-nueva" | "conforme-a-obras" | "gas";
+
+export type GasTramiteType = "instalacion-nueva" | "ampliacion" | "cambio-medidor" | "habilitacion";
+
+export const GAS_TRAMITE_TYPES: Record<GasTramiteType, string> = {
+  "instalacion-nueva": "Instalación nueva",
+  "ampliacion": "Ampliación",
+  "cambio-medidor": "Cambio de medidor",
+  "habilitacion": "Habilitación",
+};
 
 export interface BudgetTypeDefinition {
   label: string;
@@ -19,6 +40,11 @@ export interface BudgetTypeDefinition {
   includeItems: string[];
   excludeItems: string[];
   enabled: boolean;
+}
+
+export interface OtroCosto {
+  concepto: string;
+  monto: number;
 }
 
 export const BUDGET_TYPES: Record<BudgetType, BudgetTypeDefinition> = {
@@ -53,11 +79,17 @@ export const BUDGET_TYPES: Record<BudgetType, BudgetTypeDefinition> = {
     enabled: true,
   },
   gas: {
-    label: "GAS",
-    shortLabel: "GAS",
-    includeItems: [],
+    label: "INSTALACIÓN DE GAS",
+    shortLabel: "INSTALACIÓN DE GAS",
+    includeItems: [
+      "Inicio de trámite de gas.",
+      "Presentación de planos.",
+      "Inspección parcial.",
+      "Inspección final.",
+      "Dirección y ejecución de obra.",
+    ],
     excludeItems: [],
-    enabled: false,
+    enabled: true,
   },
 };
 
@@ -90,3 +122,15 @@ export const COLORS = {
 
 // Default validity period in days
 export const DEFAULT_VALIDITY_DAYS = 10;
+
+// Default gas work stages
+export const DEFAULT_GAS_WORK_STAGES = [
+  "Inicio de trámite, presentación de planos e inspección parcial.",
+  "Inspección final, aprobación del trámite y finalización de obra.",
+];
+
+// Default gas information notes
+export const DEFAULT_GAS_INFO_NOTES = [
+  "El presupuesto NO incluye materiales, se cotizarán por separado.",
+  "Los tiempos dependen de la aprobación de inspecciones por Camuzzi.",
+];

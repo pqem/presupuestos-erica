@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { getHistory, deleteFromHistory, formatCurrency, formatDate } from "@/lib/utils";
-import { BudgetFormData } from "./BudgetForm";
-import { HistoryBudget } from "@/lib/utils";
+import { getHistory, deleteFromHistory, formatCurrency, formatDate, HistoryBudget } from "@/lib/utils";
+import { BudgetFormData } from "@/lib/types";
 
 interface BudgetHistoryProps {
   onSelectBudget: (data: BudgetFormData) => void;

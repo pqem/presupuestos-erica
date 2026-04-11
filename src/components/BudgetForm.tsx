@@ -6,26 +6,23 @@ import {
   BudgetType,
   DEFAULT_PAYMENT_STAGES,
   DEFAULT_VALIDITY_DAYS,
+  DEFAULT_GAS_WORK_STAGES,
+  DEFAULT_GAS_INFO_NOTES,
 } from "@/lib/constants";
-import { formatCurrency, calculateTotal, saveToHistory } from "@/lib/utils";
+import {
+  BudgetFormData,
+  ObraBudgetData,
+  GasBudgetData,
+  isObraBudget,
+  isGasBudget,
+  calculateBudgetTotal,
+} from "@/lib/types";
+import { formatCurrency, saveToHistory } from "@/lib/utils";
+import { ObraFields } from "./ObraFields";
+import { GasFields } from "./GasFields";
 
-interface PaymentStage {
-  percent: number;
-  description: string;
-}
-
-export interface BudgetFormData {
-  date: string;
-  location: string;
-  clientName: string;
-  budgetType: BudgetType;
-  pricePerM2: number;
-  surfaceM2: number;
-  includeItems: string[];
-  excludeItems: string[];
-  paymentStages: PaymentStage[];
-  validityDays: number;
-}
+// Re-export for backwards compatibility
+export type { BudgetFormData } from "@/lib/types";
 
 interface BudgetFormProps {
   onFormChange: (data: BudgetFormData) => void;
@@ -47,18 +44,20 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
       return initialData;
     }
     const today = new Date().toISOString().split("T")[0];
-    return {
+    const obraDefaults = BUDGET_TYPES["obra-nueva"];
+    const defaultObraData: ObraBudgetData = {
       date: today,
       location: "Plottier",
       clientName: "",
       budgetType: "obra-nueva",
       pricePerM2: 0,
       surfaceM2: 0,
-      includeItems: [...BUDGET_TYPES["obra-nueva"].includeItems],
-      excludeItems: [...BUDGET_TYPES["obra-nueva"].excludeItems],
+      includeItems: [...obraDefaults.includeItems],
+      excludeItems: [...obraDefaults.excludeItems],
       paymentStages: [...DEFAULT_PAYMENT_STAGES],
       validityDays: DEFAULT_VALIDITY_DAYS,
     };
+    return defaultObraData;
   };
 
   const [formData, setFormData] = useState<BudgetFormData>(getInitialData());
@@ -72,17 +71,43 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
 
     if (name === "budgetType") {
       const type = value as BudgetType;
-      const budgetTypeInfo = BUDGET_TYPES[type];
-      newData = {
-        ...formData,
-        [name]: type,
-        includeItems: [...budgetTypeInfo.includeItems],
-        excludeItems: [...budgetTypeInfo.excludeItems],
+      const commonFields = {
+        date: formData.date,
+        location: formData.location,
+        clientName: formData.clientName,
+        paymentStages: formData.paymentStages,
+        validityDays: formData.validityDays,
       };
-    } else if (name === "pricePerM2" || name === "surfaceM2") {
+
+      if (type === "gas") {
+        // Switch to gas
+        newData = {
+          ...commonFields,
+          budgetType: type,
+          tramiteType: "instalacion-nueva",
+          direccionObra: "",
+          montoTramite: 0,
+          montoManoObra: 0,
+          otrosCostos: [],
+          workStages: [...DEFAULT_GAS_WORK_STAGES],
+          infoNotes: [...DEFAULT_GAS_INFO_NOTES],
+          includeItems: [...BUDGET_TYPES["gas"].includeItems],
+        };
+      } else {
+        // Switch to obra
+        newData = {
+          ...commonFields,
+          budgetType: type,
+          pricePerM2: 0,
+          surfaceM2: 0,
+          includeItems: [...BUDGET_TYPES[type].includeItems],
+          excludeItems: [...BUDGET_TYPES[type].excludeItems],
+        };
+      }
+    } else if (name === "validityDays") {
       newData = {
         ...formData,
-        [name]: parseFloat(value) || 0,
+        [name]: parseInt(value) || 0,
       };
     } else {
       newData = {
@@ -95,21 +120,6 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
     onFormChange(newData);
   };
 
-  const handleIncludeItemChange = (index: number, value: string) => {
-    const newItems = [...formData.includeItems];
-    newItems[index] = value;
-    const newData = { ...formData, includeItems: newItems };
-    setFormData(newData);
-    onFormChange(newData);
-  };
-
-  const handleExcludeItemChange = (index: number, value: string) => {
-    const newItems = [...formData.excludeItems];
-    newItems[index] = value;
-    const newData = { ...formData, excludeItems: newItems };
-    setFormData(newData);
-    onFormChange(newData);
-  };
 
   const handlePaymentStageChange = (
     index: number,
@@ -144,17 +154,19 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
     onFormChange(newData);
   };
 
-  const total = calculateTotal(formData.surfaceM2, formData.pricePerM2);
+  const total = calculateBudgetTotal(formData);
 
   const handleSaveToHistory = () => {
     saveToHistory({
       clientName: formData.clientName,
       date: formData.date,
       budgetType: formData.budgetType,
-      surfaceM2: formData.surfaceM2,
-      pricePerM2: formData.pricePerM2,
       total: total,
       data: formData as unknown as Record<string, unknown>,
+      ...(isObraBudget(formData) && {
+        surfaceM2: formData.surfaceM2,
+        pricePerM2: formData.pricePerM2,
+      }),
     });
     alert("Presupuesto guardado en el historial");
   };
@@ -219,76 +231,20 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
         </select>
       </div>
 
-      {/* Price and Surface */}
-      <div className="mb-4 grid grid-cols-2 gap-4">
-        <div>
-          <label className={labelClass}>Precio por m2</label>
-          <input
-            type="number"
-            name="pricePerM2"
-            value={formData.pricePerM2}
-            onChange={handleInputChange}
-            className={inputClass}
-            placeholder="0"
-          />
-        </div>
-        <div>
-          <label className={labelClass}>Superficie (m2)</label>
-          <input
-            type="number"
-            name="surfaceM2"
-            value={formData.surfaceM2}
-            onChange={handleInputChange}
-            className={inputClass}
-            placeholder="0"
-          />
-        </div>
-      </div>
+      {/* Type-specific fields */}
+      {isObraBudget(formData) && (
+        <ObraFields data={formData} onChange={(data) => {
+          setFormData(data);
+          onFormChange(data);
+        }} />
+      )}
 
-      {/* Total */}
-      <div className="mb-6 p-4 bg-surface-hover rounded-lg border border-border">
-        <div className="flex justify-between items-center">
-          <span className="text-sm font-semibold text-muted">TOTAL:</span>
-          <span className="text-lg font-bold text-brand-light">
-            {formatCurrency(total)}
-          </span>
-        </div>
-        <p className="text-xs text-placeholder mt-2">(IVA incluido)</p>
-      </div>
-
-      {/* Include Items */}
-      <div className="mb-4">
-        <h3 className="text-sm font-semibold text-brand-light mb-2">INCLUYE:</h3>
-        <div className="space-y-2 max-h-40 overflow-y-auto">
-          {formData.includeItems.map((item, idx) => (
-            <input
-              key={idx}
-              type="text"
-              value={item}
-              onChange={(e) => handleIncludeItemChange(idx, e.target.value)}
-              className={inputSmClass}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Exclude Items */}
-      <div className="mb-4">
-        <h3 className="text-sm font-semibold text-brand-light mb-2">
-          NO INCLUYE:
-        </h3>
-        <div className="space-y-2 max-h-40 overflow-y-auto">
-          {formData.excludeItems.map((item, idx) => (
-            <input
-              key={idx}
-              type="text"
-              value={item}
-              onChange={(e) => handleExcludeItemChange(idx, e.target.value)}
-              className={inputSmClass}
-            />
-          ))}
-        </div>
-      </div>
+      {isGasBudget(formData) && (
+        <GasFields data={formData} onChange={(data) => {
+          setFormData(data);
+          onFormChange(data);
+        }} />
+      )}
 
       {/* Payment Stages */}
       <div className="mb-4">
