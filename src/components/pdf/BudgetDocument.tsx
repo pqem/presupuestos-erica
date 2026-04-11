@@ -52,9 +52,9 @@ interface BudgetDocumentProps {
 
 const styles = StyleSheet.create({
   page: {
-    paddingHorizontal: 50,
-    paddingTop: 30,
-    paddingBottom: 65,
+    paddingHorizontal: 71,
+    paddingTop: 50,
+    paddingBottom: 70,
     fontFamily: "PTSans",
     fontWeight: 400,
     fontSize: 10,
@@ -63,11 +63,11 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     position: "relative",
   },
-  // Date top-right with underline
+  // Date top-right, no underline
   dateContainer: {
     position: "absolute",
     top: 25,
-    right: 50,
+    right: 71,
     width: 180,
     textAlign: "right",
   },
@@ -76,9 +76,6 @@ const styles = StyleSheet.create({
     fontWeight: 400,
     fontSize: 8,
     color: COLORS.black,
-    paddingBottom: 3,
-    borderBottomWidth: 0.5,
-    borderBottomColor: COLORS.darkGray,
   },
   // Title: Montserrat Black, brown
   titleSection: {
@@ -87,7 +84,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "Montserrat",
     fontWeight: 900,
-    fontSize: 28,
+    fontSize: 26,
     color: COLORS.primary,
     marginBottom: 0,
     letterSpacing: 2,
@@ -96,16 +93,9 @@ const styles = StyleSheet.create({
   subtitle: {
     fontFamily: "Montserrat",
     fontWeight: 700,
-    fontSize: 13,
+    fontSize: 14,
     color: COLORS.primary,
     letterSpacing: 1,
-  },
-  // Brown separator
-  hrule: {
-    borderBottomWidth: 2,
-    borderBottomColor: COLORS.primary,
-    marginTop: 8,
-    marginBottom: 8,
   },
   // PT Sans Bold, black
   ptBold: {
@@ -136,13 +126,13 @@ const styles = StyleSheet.create({
     fontWeight: 700,
     fontSize: 10,
     color: COLORS.black,
-    marginBottom: 2,
-    marginTop: 4,
+    marginBottom: 4,
+    marginTop: 12,
   },
   // Bullet list
   bulletList: {
-    marginLeft: 12,
-    marginBottom: 2,
+    marginLeft: 36,
+    marginBottom: 4,
   },
   bulletItem: {
     flexDirection: "row",
@@ -230,9 +220,9 @@ const styles = StyleSheet.create({
   footer: {
     position: "absolute",
     bottom: 12,
-    left: 50,
-    right: 50,
-    textAlign: "center",
+    left: 71,
+    right: 71,
+    textAlign: "right",
     fontSize: 8,
     lineHeight: 1.4,
   },
@@ -289,9 +279,6 @@ export const BudgetDocument: React.FC<BudgetDocumentProps> = ({
           <Text style={styles.title}>PRESUPUESTO</Text>
           <Text style={styles.subtitle}>{budgetTypeInfo.label}</Text>
         </View>
-
-        {/* Brown separator */}
-        <View style={styles.hrule} />
 
         {/* Client: PT Sans Bold */}
         <Text style={styles.clientName}>Sr. {clientName.toUpperCase()}</Text>

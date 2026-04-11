@@ -49,9 +49,9 @@ interface GasBudgetDocumentProps {
 
 const styles = StyleSheet.create({
   page: {
-    paddingHorizontal: 50,
-    paddingTop: 30,
-    paddingBottom: 65,
+    paddingHorizontal: 71,
+    paddingTop: 50,
+    paddingBottom: 70,
     fontFamily: "PTSans",
     fontWeight: 400,
     fontSize: 9,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   dateContainer: {
     position: "absolute",
     top: 25,
-    right: 50,
+    right: 71,
     width: 180,
     textAlign: "right",
   },
@@ -72,9 +72,6 @@ const styles = StyleSheet.create({
     fontWeight: 400,
     fontSize: 8,
     color: COLORS.black,
-    paddingBottom: 3,
-    borderBottomWidth: 0.5,
-    borderBottomColor: COLORS.darkGray,
   },
   titleSection: {
     marginTop: 8,
@@ -82,7 +79,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "Montserrat",
     fontWeight: 900,
-    fontSize: 28,
+    fontSize: 26,
     color: COLORS.primary,
     marginBottom: 0,
     letterSpacing: 2,
@@ -90,15 +87,9 @@ const styles = StyleSheet.create({
   subtitle: {
     fontFamily: "Montserrat",
     fontWeight: 700,
-    fontSize: 13,
+    fontSize: 14,
     color: COLORS.primary,
     letterSpacing: 1,
-  },
-  hrule: {
-    borderBottomWidth: 2,
-    borderBottomColor: COLORS.primary,
-    marginTop: 8,
-    marginBottom: 8,
   },
   ptBold: {
     fontFamily: "PTSans",
@@ -125,12 +116,12 @@ const styles = StyleSheet.create({
     fontWeight: 700,
     fontSize: 9,
     color: COLORS.black,
-    marginBottom: 2,
-    marginTop: 3,
+    marginBottom: 4,
+    marginTop: 12,
   },
   bulletList: {
-    marginLeft: 12,
-    marginBottom: 3,
+    marginLeft: 36,
+    marginBottom: 4,
   },
   bulletItem: {
     flexDirection: "row",
@@ -259,9 +250,9 @@ const styles = StyleSheet.create({
   footer: {
     position: "absolute",
     bottom: 12,
-    left: 50,
-    right: 50,
-    textAlign: "center",
+    left: 71,
+    right: 71,
+    textAlign: "right",
     fontSize: 7,
     lineHeight: 1.4,
   },
@@ -318,9 +309,6 @@ export const GasBudgetDocument: React.FC<GasBudgetDocumentProps> = ({
           <Text style={styles.title}>PRESUPUESTO</Text>
           <Text style={styles.subtitle}>INSTALACIÓN DE GAS</Text>
         </View>
-
-        {/* Brown separator */}
-        <View style={styles.hrule} />
 
         {/* Client */}
         <Text style={styles.clientName}>Sr. {clientName.toUpperCase()}</Text>
