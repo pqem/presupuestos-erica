@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Brand browns — source of truth for UI */
-  --color-brand: #8B6F3E;
-  --color-brand-light: #B8874A;
-  --color-brand-dim: #6B5530;
-  --color-brand-hover: #A07D48;
+  /* Brand navy — source of truth for UI */
+  --color-brand: #1E3A5F;
+  --color-brand-light: #4A7BB8;
+  --color-brand-dim: #152940;
+  --color-brand-hover: #2B5080;
 
   /* Neutrals — dark mode */
   --color-bg: #0f0f0f;

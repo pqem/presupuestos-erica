@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat",
     fontWeight: 900,
     fontSize: 28,
-    color: COLORS.brown,
+    color: COLORS.primary,
     marginBottom: 0,
     letterSpacing: 2,
   },
@@ -97,13 +97,13 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat",
     fontWeight: 700,
     fontSize: 13,
-    color: COLORS.brown,
+    color: COLORS.primary,
     letterSpacing: 1,
   },
   // Brown separator
   hrule: {
     borderBottomWidth: 2,
-    borderBottomColor: COLORS.brown,
+    borderBottomColor: COLORS.primary,
     marginTop: 8,
     marginBottom: 8,
   },
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: COLORS.black,
   },
-  // Footer: PT Sans Regular, brown #8B6F3E, 8pt, centered
+  // Footer: PT Sans Regular, navy #1E3A5F, 8pt
   footer: {
     position: "absolute",
     bottom: 12,
@@ -238,19 +238,19 @@ const styles = StyleSheet.create({
   },
   footerDivider: {
     borderBottomWidth: 2,
-    borderBottomColor: COLORS.brown,
+    borderBottomColor: COLORS.primary,
     marginBottom: 6,
   },
   footerLine: {
     fontFamily: "PTSans",
     fontWeight: 400,
-    color: COLORS.brown,
+    color: COLORS.primary,
     marginBottom: 1,
   },
   footerWebsite: {
     fontFamily: "PTSans",
     fontWeight: 400,
-    color: COLORS.brown,
+    color: COLORS.primary,
   },
 });
 

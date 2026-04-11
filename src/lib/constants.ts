@@ -107,14 +107,14 @@ export const DEFAULT_PAYMENT_STAGES: PaymentStage[] = [
 // Brand colors — single source of truth for PDF rendering
 // UI uses CSS variables from globals.css (same values)
 export const BRAND_COLORS = {
-  brown: "#8B6F3E",
-  brownLight: "#B8874A",
-  brownDim: "#6B5530",
+  primary: "#1E3A5F",
+  primaryLight: "#4A7BB8",
+  primaryDim: "#152940",
 };
 
 // PDF-specific colors (used only by BudgetDocument.tsx)
 export const COLORS = {
-  brown: BRAND_COLORS.brown,
+  primary: BRAND_COLORS.primary,
   black: "#000000",
   darkGray: "#333333",
   white: "#FFFFFF",

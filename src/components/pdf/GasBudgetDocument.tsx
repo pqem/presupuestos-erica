@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat",
     fontWeight: 900,
     fontSize: 28,
-    color: COLORS.brown,
+    color: COLORS.primary,
     marginBottom: 0,
     letterSpacing: 2,
   },
@@ -91,12 +91,12 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat",
     fontWeight: 700,
     fontSize: 13,
-    color: COLORS.brown,
+    color: COLORS.primary,
     letterSpacing: 1,
   },
   hrule: {
     borderBottomWidth: 2,
-    borderBottomColor: COLORS.brown,
+    borderBottomColor: COLORS.primary,
     marginTop: 8,
     marginBottom: 8,
   },
@@ -267,19 +267,19 @@ const styles = StyleSheet.create({
   },
   footerDivider: {
     borderBottomWidth: 2,
-    borderBottomColor: COLORS.brown,
+    borderBottomColor: COLORS.primary,
     marginBottom: 4,
   },
   footerLine: {
     fontFamily: "PTSans",
     fontWeight: 400,
-    color: COLORS.brown,
+    color: COLORS.primary,
     marginBottom: 0.5,
   },
   footerWebsite: {
     fontFamily: "PTSans",
     fontWeight: 400,
-    color: COLORS.brown,
+    color: COLORS.primary,
   },
 });
 
