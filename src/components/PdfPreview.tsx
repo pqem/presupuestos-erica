@@ -1,103 +1,89 @@
 "use client";
 
-import React from "react";
-import { PDFViewer, BlobProvider } from "@react-pdf/renderer";
-import { BudgetDocument } from "./pdf/BudgetDocument";
-import { GasBudgetDocument } from "./pdf/GasBudgetDocument";
-import { BudgetFormData, isObraBudget, isGasBudget } from "@/lib/types";
+import React, { useMemo, useState } from "react";
+import { BudgetFormData, isObraBudget, isGasBudget, ObraBudgetData, GasBudgetData } from "@/lib/types";
+import { generateObraHtml } from "@/lib/pdf/html-templates/obraTemplate";
+import { generateGasHtml } from "@/lib/pdf/html-templates/gasTemplate";
 
 interface PdfPreviewProps {
   formData: BudgetFormData;
   isValid?: boolean;
 }
 
-const buildDocument = (formData: BudgetFormData, date: Date) => {
-  if (isGasBudget(formData)) {
-    return (
-      <GasBudgetDocument
-        date={date}
-        location={formData.location}
-        clientName={formData.clientName}
-        tramiteType={formData.tramiteType}
-        direccionObra={formData.direccionObra}
-        montoTramite={formData.montoTramite}
-        montoManoObra={formData.montoManoObra}
-        otrosCostos={formData.otrosCostos}
-        includeItems={formData.includeItems}
-        workStages={formData.workStages}
-        infoNotes={formData.infoNotes}
-        paymentStages={formData.paymentStages}
-        validityDays={formData.validityDays}
-      />
-    );
-  }
+const PreviewIframe: React.FC<{ formData: BudgetFormData }> = ({ formData }) => {
+  const html = useMemo(() => {
+    if (isGasBudget(formData)) {
+      return generateGasHtml(formData as GasBudgetData);
+    }
+    if (isObraBudget(formData)) {
+      return generateObraHtml(formData as ObraBudgetData);
+    }
+    return "<p>Tipo no soportado</p>";
+  }, [formData]);
 
-  if (isObraBudget(formData)) {
-    return (
-      <BudgetDocument
-        date={date}
-        location={formData.location}
-        clientName={formData.clientName}
-        budgetType={formData.budgetType}
-        pricePerM2={formData.pricePerM2}
-        surfaceM2={formData.surfaceM2}
-        includeItems={formData.includeItems}
-        excludeItems={formData.excludeItems}
-        paymentStages={formData.paymentStages}
-        validityDays={formData.validityDays}
-      />
-    );
-  }
-
-  return null;
+  return (
+    <iframe
+      srcDoc={html}
+      style={{ width: "100%", height: "100%", border: "none", background: "white" }}
+      title="Vista previa del presupuesto"
+    />
+  );
 };
 
 export const PdfPreview: React.FC<PdfPreviewProps> = ({ formData, isValid }) => {
-  const date = new Date(formData.date);
-  const pdfDocument = buildDocument(formData, date);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    setIsDownloading(true);
+    try {
+      const response = await fetch("/api/generate-pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ formData }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error generando PDF");
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = window.document.createElement("a");
+      link.href = url;
+      link.download = `Presupuesto_${formData.clientName}_${formData.date}.pdf`;
+      window.document.body.appendChild(link);
+      link.click();
+      window.document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download error:", error);
+      alert("Error al descargar el PDF. Intentá nuevamente.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   if (isValid === false) {
     return (
-      <div className="flex items-center justify-center h-full text-muted text-sm p-8 text-center">
+      <div className="w-full h-full flex items-center justify-center text-muted text-sm p-8 text-center">
         Completá los campos obligatorios para ver la vista previa del PDF
       </div>
     );
   }
 
-  if (!pdfDocument) {
-    return <div className="flex items-center justify-center h-full text-danger">Tipo de presupuesto no soportado</div>;
-  }
-
   return (
     <div className="w-full h-full flex flex-col">
       <div className="flex-1 min-h-0">
-        <PDFViewer style={{ width: "100%", height: "100%" }}>
-          {pdfDocument}
-        </PDFViewer>
+        <PreviewIframe formData={formData} />
       </div>
-
-      {/* Download Button */}
       <div className="p-4 bg-surface border-t border-border">
-        <BlobProvider key={JSON.stringify(formData)} document={pdfDocument}>
-          {({ blob, url, loading, error }) => (
-            <button
-              onClick={() => {
-                if (blob) {
-                  const link = window.document.createElement("a");
-                  link.href = url || "";
-                  link.download = `Presupuesto_${formData.clientName}_${formData.date}.pdf`;
-                  window.document.body.appendChild(link);
-                  link.click();
-                  window.document.body.removeChild(link);
-                }
-              }}
-              disabled={loading}
-              className="w-full bg-brand text-white font-semibold py-3 rounded hover:bg-brand-hover transition disabled:opacity-50"
-            >
-              {loading ? "Generando PDF..." : "Descargar PDF"}
-            </button>
-          )}
-        </BlobProvider>
+        <button
+          onClick={handleDownload}
+          disabled={isDownloading}
+          className="w-full bg-brand text-white font-semibold py-3 rounded hover:bg-brand-hover transition disabled:opacity-50"
+        >
+          {isDownloading ? "Generando PDF..." : "Descargar PDF"}
+        </button>
       </div>
     </div>
   );

@@ -112,7 +112,7 @@ export const BRAND_COLORS = {
   primaryDim: "#152940",
 };
 
-// PDF-specific colors (used only by BudgetDocument.tsx)
+// PDF-specific colors (used by HTML templates)
 export const COLORS = {
   primary: BRAND_COLORS.primary,
   black: "#000000",
