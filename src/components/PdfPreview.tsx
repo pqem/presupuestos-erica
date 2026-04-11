@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef } from "react";
 import { BudgetFormData, isObraBudget, isGasBudget, ObraBudgetData, GasBudgetData } from "@/lib/types";
 import { generateObraHtml } from "@/lib/pdf/html-templates/obraTemplate";
 import { generateGasHtml } from "@/lib/pdf/html-templates/gasTemplate";
@@ -10,19 +10,22 @@ interface PdfPreviewProps {
   isValid?: boolean;
 }
 
-const PreviewIframe: React.FC<{ formData: BudgetFormData }> = ({ formData }) => {
-  const html = useMemo(() => {
-    if (isGasBudget(formData)) {
-      return generateGasHtml(formData as GasBudgetData);
-    }
-    if (isObraBudget(formData)) {
-      return generateObraHtml(formData as ObraBudgetData);
-    }
-    return "<p>Tipo no soportado</p>";
-  }, [formData]);
+function buildHtml(formData: BudgetFormData): string {
+  if (isGasBudget(formData)) {
+    return generateGasHtml(formData as GasBudgetData);
+  }
+  if (isObraBudget(formData)) {
+    return generateObraHtml(formData as ObraBudgetData);
+  }
+  return "<p>Tipo no soportado</p>";
+}
+
+const PreviewIframe: React.FC<{ formData: BudgetFormData; iframeRef: React.RefObject<HTMLIFrameElement | null> }> = ({ formData, iframeRef }) => {
+  const html = useMemo(() => buildHtml(formData), [formData]);
 
   return (
     <iframe
+      ref={iframeRef}
       srcDoc={html}
       style={{ width: "100%", height: "100%", border: "none", background: "white" }}
       title="Vista previa del presupuesto"
@@ -31,36 +34,22 @@ const PreviewIframe: React.FC<{ formData: BudgetFormData }> = ({ formData }) => 
 };
 
 export const PdfPreview: React.FC<PdfPreviewProps> = ({ formData, isValid }) => {
-  const [isDownloading, setIsDownloading] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
-  const handleDownload = async () => {
-    setIsDownloading(true);
-    try {
-      const response = await fetch("/api/generate-pdf", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ formData }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Error generando PDF");
-      }
-
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      const link = window.document.createElement("a");
-      link.href = url;
-      link.download = `Presupuesto_${formData.clientName}_${formData.date}.pdf`;
-      window.document.body.appendChild(link);
-      link.click();
-      window.document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Download error:", error);
-      alert("Error al descargar el PDF. Intentá nuevamente.");
-    } finally {
-      setIsDownloading(false);
+  const handleDownload = () => {
+    // Open a new window with the HTML and trigger print (Save as PDF)
+    const html = buildHtml(formData);
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) {
+      alert("Habilitá las ventanas emergentes para descargar el PDF.");
+      return;
     }
+    printWindow.document.write(html);
+    printWindow.document.close();
+    // Wait for fonts to load before printing
+    printWindow.onload = () => {
+      printWindow.print();
+    };
   };
 
   if (isValid === false) {
@@ -74,15 +63,14 @@ export const PdfPreview: React.FC<PdfPreviewProps> = ({ formData, isValid }) => 
   return (
     <div className="w-full h-full flex flex-col">
       <div className="flex-1 min-h-0">
-        <PreviewIframe formData={formData} />
+        <PreviewIframe formData={formData} iframeRef={iframeRef} />
       </div>
       <div className="p-4 bg-surface border-t border-border">
         <button
           onClick={handleDownload}
-          disabled={isDownloading}
-          className="w-full bg-brand text-white font-semibold py-3 rounded hover:bg-brand-hover transition disabled:opacity-50"
+          className="w-full bg-brand text-white font-semibold py-3 rounded hover:bg-brand-hover transition"
         >
-          {isDownloading ? "Generando PDF..." : "Descargar PDF"}
+          Descargar PDF
         </button>
       </div>
     </div>
