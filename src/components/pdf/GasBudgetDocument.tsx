@@ -58,21 +58,21 @@ const styles = StyleSheet.create({
   },
   titleSection: {
     marginTop: 8,
+    marginBottom: 20,
+    flexDirection: "column",
   },
   title: {
     fontFamily: "Montserrat",
     fontWeight: 700,
     fontSize: 26,
     color: COLORS.primary,
-    marginBottom: 0,
-    letterSpacing: 2,
+    marginBottom: 4,
   },
   subtitle: {
     fontFamily: "Montserrat",
     fontWeight: 700,
     fontSize: 14,
     color: COLORS.primary,
-    letterSpacing: 1,
   },
   ptBold: {
     fontFamily: "OpenSans",
