@@ -1,23 +1,23 @@
 import { Font } from "@react-pdf/renderer";
 
-// Register fonts once (TTF format to avoid OpenType ligature issues with WOFF)
+// Montserrat Bold for titles only (weight 700).
+// Montserrat Black (900) was removed because its complex kerning tables
+// caused overlapping glyphs in @react-pdf/renderer.
 Font.register({
   family: "Montserrat",
   fonts: [
     { src: "/fonts/Montserrat-Bold.ttf", fontWeight: 700 },
-    { src: "/fonts/Montserrat-Black.ttf", fontWeight: 900 },
   ],
 });
 
+// Open Sans for body text (replaced PT Sans because its GSUB ligature
+// tables "fi"/"fl"/"ffi" caused @react-pdf/renderer to drop the "i"
+// in words like "definitivo", "superficies", "finalizar").
+// See: diegomura/react-pdf#1649, #2112.
 Font.register({
-  family: "PTSans",
+  family: "OpenSans",
   fonts: [
-    { src: "/fonts/PTSans-Regular.ttf", fontWeight: 400 },
-    { src: "/fonts/PTSans-Bold.ttf", fontWeight: 700 },
+    { src: "/fonts/OpenSans-Regular.ttf", fontWeight: 400 },
+    { src: "/fonts/OpenSans-Bold.ttf", fontWeight: 700 },
   ],
 });
-
-// Disable hyphenation/ligature substitution to fix "fi" ligature bug
-// where @react-pdf/renderer drops the "i" in words like "definitivo",
-// "superficies", "finalizar". See: diegomura/react-pdf#1649, #2112.
-Font.registerHyphenationCallback((word) => [word]);

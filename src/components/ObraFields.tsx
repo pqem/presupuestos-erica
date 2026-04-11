@@ -18,7 +18,7 @@ export const ObraFields: React.FC<ObraFieldsProps> = ({ data, onChange, validati
   const handlePriceChange = (value: string) => {
     onChange({
       ...data,
-      pricePerM2: parseFloat(value) || 0,
+      pricePerM2: parseInt(value, 10) || 0,
     });
   };
 
@@ -51,8 +51,7 @@ export const ObraFields: React.FC<ObraFieldsProps> = ({ data, onChange, validati
           <label className={labelClass}>Precio por m2</label>
           <input
             type="number"
-            step="0.01"
-            inputMode="decimal"
+            step="1"
             value={data.pricePerM2 || ""}
             onChange={(e) => handlePriceChange(e.target.value)}
             className={`${inputClass} ${validationErrors?.pricePerM2 ? "border-danger ring-1 ring-danger" : ""}`}

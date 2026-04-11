@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 71,
     paddingTop: 50,
     paddingBottom: 70,
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 400,
     fontSize: 10,
     lineHeight: 1.3,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   dateText: {
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 400,
     fontSize: 8,
     color: COLORS.black,
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "Montserrat",
-    fontWeight: 900,
+    fontWeight: 700,
     fontSize: 26,
     color: COLORS.primary,
     marginBottom: 0,
@@ -82,12 +82,12 @@ const styles = StyleSheet.create({
   },
   // PT Sans Bold, black
   ptBold: {
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 700,
   },
   // Client: PT Sans Bold, black
   clientName: {
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 700,
     fontSize: 10,
     color: COLORS.black,
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   // Body paragraph: PT Sans Regular, black
   paragraph: {
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 400,
     fontSize: 10,
     lineHeight: 1.3,
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
   // Section headers: PT Sans Bold, black
   sectionHeader: {
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 700,
     fontSize: 10,
     color: COLORS.black,
@@ -124,13 +124,13 @@ const styles = StyleSheet.create({
   bullet: {
     width: 10,
     fontSize: 10,
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 400,
   },
   // Bullet text: PT Sans Regular, black
   bulletText: {
     flex: 1,
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 400,
     fontSize: 9,
     color: COLORS.black,
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   },
   // Calculation paragraph: PT Sans Regular
   calculationParagraph: {
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 400,
     fontSize: 10,
     lineHeight: 1.3,
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   },
   // Payment stage: PT Sans Regular + Bold for amounts
   paymentStageText: {
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 400,
     fontSize: 10,
     lineHeight: 1.3,
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   // Validity: PT Sans Regular
   validityText: {
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 400,
     fontSize: 10,
     color: COLORS.black,
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   },
   // Atte: PT Sans Regular
   attestation: {
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 400,
     fontSize: 10,
     color: COLORS.black,
@@ -180,21 +180,21 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   signatureName: {
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 700,
     fontSize: 10,
     color: COLORS.black,
     marginBottom: 1,
   },
   signatureTitle: {
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 700,
     fontSize: 9,
     color: COLORS.black,
     marginBottom: 1,
   },
   signatureLicense: {
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 700,
     fontSize: 8,
     color: COLORS.black,
@@ -215,13 +215,13 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   footerLine: {
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 400,
     color: COLORS.primary,
     marginBottom: 1,
   },
   footerWebsite: {
-    fontFamily: "PTSans",
+    fontFamily: "OpenSans",
     fontWeight: 400,
     color: COLORS.primary,
   },

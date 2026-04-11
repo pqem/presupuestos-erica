@@ -78,7 +78,7 @@ export const PdfPreview: React.FC<PdfPreviewProps> = ({ formData, isValid }) => 
 
       {/* Download Button */}
       <div className="p-4 bg-surface border-t border-border">
-        <BlobProvider document={pdfDocument}>
+        <BlobProvider key={JSON.stringify(formData)} document={pdfDocument}>
           {({ blob, url, loading, error }) => (
             <button
               onClick={() => {
