@@ -16,8 +16,11 @@ import {
   isObraBudget,
   isGasBudget,
   calculateBudgetTotal,
+  ValidationErrors,
+  validateBudget,
+  hasErrors,
 } from "@/lib/types";
-import { formatCurrency, saveToHistory } from "@/lib/utils";
+import { formatCurrency, saveToHistory, getNextBudgetNumber } from "@/lib/utils";
 import { ObraFields } from "./ObraFields";
 import { GasFields } from "./GasFields";
 
@@ -27,6 +30,8 @@ export type { BudgetFormData } from "@/lib/types";
 interface BudgetFormProps {
   onFormChange: (data: BudgetFormData) => void;
   initialData?: BudgetFormData | null;
+  validationErrors?: ValidationErrors;
+  onValidate?: (errors: ValidationErrors) => void;
 }
 
 const inputClass =
@@ -38,6 +43,8 @@ const labelClass = "block text-sm font-semibold text-brand-light mb-1";
 export const BudgetForm: React.FC<BudgetFormProps> = ({
   onFormChange,
   initialData,
+  validationErrors = {},
+  onValidate,
 }) => {
   const getInitialData = (): BudgetFormData => {
     if (initialData) {
@@ -157,7 +164,13 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
   const total = calculateBudgetTotal(formData);
 
   const handleSaveToHistory = () => {
+    const errors = validateBudget(formData);
+    if (hasErrors(errors)) {
+      onValidate?.(errors);
+      return; // Don't save
+    }
     saveToHistory({
+      budgetNumber: getNextBudgetNumber(),
       clientName: formData.clientName,
       date: formData.date,
       budgetType: formData.budgetType,
@@ -209,9 +222,12 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
           name="clientName"
           value={formData.clientName}
           onChange={handleInputChange}
-          className={inputClass}
+          className={`${inputClass} ${validationErrors?.clientName ? "border-danger ring-1 ring-danger" : ""}`}
           placeholder="Sr. Nombre Apellido"
         />
+        {validationErrors?.clientName && (
+          <p className="text-xs text-danger mt-1">{validationErrors.clientName}</p>
+        )}
       </div>
 
       {/* Budget Type */}
@@ -236,14 +252,14 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
         <ObraFields data={formData} onChange={(data) => {
           setFormData(data);
           onFormChange(data);
-        }} />
+        }} validationErrors={validationErrors} />
       )}
 
       {isGasBudget(formData) && (
         <GasFields data={formData} onChange={(data) => {
           setFormData(data);
           onFormChange(data);
-        }} />
+        }} validationErrors={validationErrors} />
       )}
 
       {/* Payment Stages */}

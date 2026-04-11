@@ -35,6 +35,19 @@ export const BudgetHistory: React.FC<BudgetHistoryProps> = ({
     }
   };
 
+  const handleDuplicate = (budget: HistoryBudget) => {
+    if (budget.data) {
+      const data = budget.data as unknown as BudgetFormData;
+      const duplicatedData: BudgetFormData = {
+        ...data,
+        date: new Date().toISOString().split("T")[0],
+        clientName: "",
+      };
+      onSelectBudget(duplicatedData);
+      setIsOpen(false);
+    }
+  };
+
   return (
     <div className="relative">
       <button
@@ -62,6 +75,10 @@ export const BudgetHistory: React.FC<BudgetHistoryProps> = ({
                   <div className="flex justify-between items-start mb-2">
                     <div className="flex-1">
                       <h4 className="font-bold text-brand-light text-sm">
+                        {budget.budgetNumber && (
+                          <span className="text-muted">{budget.budgetNumber}</span>
+                        )}
+                        {budget.budgetNumber && " — "}
                         {budget.clientName}
                       </h4>
                       <p className="text-xs text-muted mt-1">
@@ -77,16 +94,22 @@ export const BudgetHistory: React.FC<BudgetHistoryProps> = ({
                       </p>
                     </div>
                   </div>
-                  <div className="flex gap-2 mt-3">
+                  <div className="grid grid-cols-3 gap-2 mt-3">
                     <button
                       onClick={() => handleLoad(budget)}
-                      className="flex-1 bg-brand text-white text-xs py-1 rounded hover:bg-brand-hover transition"
+                      className="bg-brand text-white text-xs py-1 rounded hover:bg-brand-hover transition"
                     >
                       Cargar
                     </button>
                     <button
+                      onClick={() => handleDuplicate(budget)}
+                      className="bg-surface-hover text-brand-light border border-border text-xs py-1 rounded hover:bg-border transition"
+                    >
+                      Duplicar
+                    </button>
+                    <button
                       onClick={() => handleDelete(budget.id)}
-                      className="flex-1 bg-danger-dim text-red-300 text-xs py-1 rounded hover:bg-red-900 transition"
+                      className="bg-danger-dim text-red-300 text-xs py-1 rounded hover:bg-red-900 transition"
                     >
                       Eliminar
                     </button>

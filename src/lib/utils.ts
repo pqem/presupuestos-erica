@@ -74,9 +74,35 @@ export function calculatePayments(
   }));
 }
 
+// Budget numbering
+const COUNTER_KEY = "presupuestos_counter";
+
+interface BudgetCounter {
+  year: number;
+  count: number;
+}
+
+export function getNextBudgetNumber(): string {
+  const currentYear = new Date().getFullYear();
+  const stored = localStorage.getItem(COUNTER_KEY);
+  let counter: BudgetCounter = stored ? JSON.parse(stored) : { year: currentYear, count: 0 };
+
+  // Reset counter if year changed
+  if (counter.year !== currentYear) {
+    counter = { year: currentYear, count: 0 };
+  }
+
+  counter.count += 1;
+  localStorage.setItem(COUNTER_KEY, JSON.stringify(counter));
+
+  const padded = counter.count.toString().padStart(3, "0");
+  return `P-${currentYear}-${padded}`;
+}
+
 // localStorage helpers
 export interface HistoryBudget {
   id: string;
+  budgetNumber?: string;
   clientName: string;
   date: string;
   budgetType: string;

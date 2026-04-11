@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { BudgetForm } from "@/components/BudgetForm";
 import { BudgetHistory } from "@/components/BudgetHistory";
 import { ERICA_INFO, DEFAULT_PAYMENT_STAGES, DEFAULT_VALIDITY_DAYS, BUDGET_TYPES } from "@/lib/constants";
-import { BudgetFormData, ObraBudgetData } from "@/lib/types";
+import { BudgetFormData, ObraBudgetData, ValidationErrors } from "@/lib/types";
 
 const PdfPreview = dynamic(() =>
   import("@/components/PdfPreview").then((mod) => mod.PdfPreview),
@@ -31,6 +31,7 @@ const defaultFormData: BudgetFormData = {
 export default function Home() {
   const [formData, setFormData] = useState<BudgetFormData>(defaultFormData);
   const [isMounted, setIsMounted] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
 
   useEffect(() => {
     setIsMounted(true);
@@ -38,6 +39,10 @@ export default function Home() {
 
   const handleFormChange = (data: BudgetFormData) => {
     setFormData(data);
+    // Clear errors on change (they'll be re-checked on save/generate)
+    if (Object.keys(validationErrors).length > 0) {
+      setValidationErrors({});
+    }
   };
 
   const handleSelectBudget = (data: BudgetFormData) => {
@@ -63,6 +68,8 @@ export default function Home() {
             <BudgetForm
               onFormChange={handleFormChange}
               initialData={formData}
+              validationErrors={validationErrors}
+              onValidate={setValidationErrors}
             />
             <div className="mt-6">
               <BudgetHistory onSelectBudget={handleSelectBudget} />
@@ -72,7 +79,7 @@ export default function Home() {
           {/* Right Side: PDF Preview */}
           {isMounted && (
             <div className="hidden lg:flex flex-col bg-surface rounded-lg border border-border overflow-hidden h-full">
-              <PdfPreview formData={formData} />
+              <PdfPreview formData={formData} isValid={Object.keys(validationErrors).length === 0} />
             </div>
           )}
         </div>
@@ -83,7 +90,7 @@ export default function Home() {
             Vista previa PDF
           </h2>
           <div className="bg-surface rounded-lg border border-border overflow-hidden" style={{ height: "600px" }}>
-            {isMounted && <PdfPreview formData={formData} />}
+            {isMounted && <PdfPreview formData={formData} isValid={Object.keys(validationErrors).length === 0} />}
           </div>
         </div>
       </main>

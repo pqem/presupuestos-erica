@@ -1,11 +1,12 @@
 import React from "react";
-import { GasBudgetData } from "@/lib/types";
+import { GasBudgetData, ValidationErrors } from "@/lib/types";
 import { GAS_TRAMITE_TYPES, GasTramiteType } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 
 interface GasFieldsProps {
   data: GasBudgetData;
   onChange: (data: GasBudgetData) => void;
+  validationErrors?: ValidationErrors;
 }
 
 const inputClass =
@@ -14,7 +15,7 @@ const inputSmClass =
   "w-full bg-surface-hover border border-border rounded px-3 py-2 text-xs text-fg placeholder-placeholder focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand";
 const labelClass = "block text-sm font-semibold text-brand-light mb-1";
 
-export const GasFields: React.FC<GasFieldsProps> = ({ data, onChange }) => {
+export const GasFields: React.FC<GasFieldsProps> = ({ data, onChange, validationErrors = {} }) => {
   const handleTramiteTypeChange = (value: string) => {
     onChange({
       ...data,
@@ -114,9 +115,12 @@ export const GasFields: React.FC<GasFieldsProps> = ({ data, onChange }) => {
           type="text"
           value={data.direccionObra}
           onChange={(e) => handleDireccionChange(e.target.value)}
-          className={inputClass}
+          className={`${inputClass} ${validationErrors?.direccionObra ? "border-danger ring-1 ring-danger" : ""}`}
           placeholder="Calle, número, localidad"
         />
+        {validationErrors?.direccionObra && (
+          <p className="text-xs text-danger mt-1">{validationErrors.direccionObra}</p>
+        )}
       </div>
 
       {/* EL SERVICIO INCLUYE */}
@@ -167,9 +171,12 @@ export const GasFields: React.FC<GasFieldsProps> = ({ data, onChange }) => {
             type="number"
             value={data.montoTramite}
             onChange={(e) => handleMontoTramiteChange(e.target.value)}
-            className={inputSmClass}
+            className={`${inputSmClass} ${validationErrors?.montoTramite ? "border-danger ring-1 ring-danger" : ""}`}
             placeholder="0"
           />
+          {validationErrors?.montoTramite && (
+            <p className="text-xs text-danger mt-1">{validationErrors.montoTramite}</p>
+          )}
         </div>
 
         {/* Monto Mano de Obra */}
@@ -179,9 +186,12 @@ export const GasFields: React.FC<GasFieldsProps> = ({ data, onChange }) => {
             type="number"
             value={data.montoManoObra}
             onChange={(e) => handleMontoManoObraChange(e.target.value)}
-            className={inputSmClass}
+            className={`${inputSmClass} ${validationErrors?.montoManoObra ? "border-danger ring-1 ring-danger" : ""}`}
             placeholder="0"
           />
+          {validationErrors?.montoManoObra && (
+            <p className="text-xs text-danger mt-1">{validationErrors.montoManoObra}</p>
+          )}
         </div>
 
         {/* Otros Costos */}

@@ -301,7 +301,10 @@ export const GasBudgetDocument: React.FC<GasBudgetDocumentProps> = ({
   const total = montoTramite + montoManoObra + otrosCostos.reduce((sum, c) => sum + c.monto, 0);
 
   return (
-    <Document>
+    <Document
+      title={`Presupuesto ${clientName} - Instalación de Gas`}
+      author="Erica Avalos"
+    >
       <Page size="A4" style={styles.page}>
         {/* Date top-right with underline */}
         <View style={styles.dateContainer}>

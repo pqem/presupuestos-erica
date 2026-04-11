@@ -1,10 +1,11 @@
 import React from "react";
-import { ObraBudgetData } from "@/lib/types";
+import { ObraBudgetData, ValidationErrors } from "@/lib/types";
 import { formatCurrency } from "@/lib/utils";
 
 interface ObraFieldsProps {
   data: ObraBudgetData;
   onChange: (data: ObraBudgetData) => void;
+  validationErrors?: ValidationErrors;
 }
 
 const inputClass =
@@ -13,7 +14,7 @@ const inputSmClass =
   "w-full bg-surface-hover border border-border rounded px-3 py-2 text-xs text-fg placeholder-placeholder focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand";
 const labelClass = "block text-sm font-semibold text-brand-light mb-1";
 
-export const ObraFields: React.FC<ObraFieldsProps> = ({ data, onChange }) => {
+export const ObraFields: React.FC<ObraFieldsProps> = ({ data, onChange, validationErrors = {} }) => {
   const handlePriceChange = (value: string) => {
     onChange({
       ...data,
@@ -52,9 +53,12 @@ export const ObraFields: React.FC<ObraFieldsProps> = ({ data, onChange }) => {
             type="number"
             value={data.pricePerM2}
             onChange={(e) => handlePriceChange(e.target.value)}
-            className={inputClass}
+            className={`${inputClass} ${validationErrors?.pricePerM2 ? "border-danger ring-1 ring-danger" : ""}`}
             placeholder="0"
           />
+          {validationErrors?.pricePerM2 && (
+            <p className="text-xs text-danger mt-1">{validationErrors.pricePerM2}</p>
+          )}
         </div>
         <div>
           <label className={labelClass}>Superficie (m2)</label>
@@ -62,9 +66,12 @@ export const ObraFields: React.FC<ObraFieldsProps> = ({ data, onChange }) => {
             type="number"
             value={data.surfaceM2}
             onChange={(e) => handleSurfaceChange(e.target.value)}
-            className={inputClass}
+            className={`${inputClass} ${validationErrors?.surfaceM2 ? "border-danger ring-1 ring-danger" : ""}`}
             placeholder="0"
           />
+          {validationErrors?.surfaceM2 && (
+            <p className="text-xs text-danger mt-1">{validationErrors.surfaceM2}</p>
+          )}
         </div>
       </div>
 

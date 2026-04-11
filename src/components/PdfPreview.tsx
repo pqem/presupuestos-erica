@@ -8,6 +8,7 @@ import { BudgetFormData, isObraBudget, isGasBudget } from "@/lib/types";
 
 interface PdfPreviewProps {
   formData: BudgetFormData;
+  isValid?: boolean;
 }
 
 const buildDocument = (formData: BudgetFormData, date: Date) => {
@@ -51,9 +52,17 @@ const buildDocument = (formData: BudgetFormData, date: Date) => {
   return null;
 };
 
-export const PdfPreview: React.FC<PdfPreviewProps> = ({ formData }) => {
+export const PdfPreview: React.FC<PdfPreviewProps> = ({ formData, isValid }) => {
   const date = new Date(formData.date);
   const pdfDocument = buildDocument(formData, date);
+
+  if (isValid === false) {
+    return (
+      <div className="flex items-center justify-center h-full text-muted text-sm p-8 text-center">
+        Completá los campos obligatorios para ver la vista previa del PDF
+      </div>
+    );
+  }
 
   if (!pdfDocument) {
     return <div className="flex items-center justify-center h-full text-danger">Tipo de presupuesto no soportado</div>;

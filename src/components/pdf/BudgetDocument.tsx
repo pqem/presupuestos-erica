@@ -272,7 +272,10 @@ export const BudgetDocument: React.FC<BudgetDocumentProps> = ({
   const stagesWord = numberToWords(numStages);
 
   return (
-    <Document>
+    <Document
+      title={`Presupuesto ${clientName} - ${budgetTypeInfo.label}`}
+      author="Erica Avalos"
+    >
       <Page size="A4" style={styles.page}>
         {/* Date top-right with underline */}
         <View style={styles.dateContainer}>
