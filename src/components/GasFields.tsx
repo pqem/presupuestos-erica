@@ -169,7 +169,9 @@ export const GasFields: React.FC<GasFieldsProps> = ({ data, onChange, validation
           <label className="text-xs text-muted mb-1 block">Trámite ante Camuzzi</label>
           <input
             type="number"
-            value={data.montoTramite}
+            step="0.01"
+            inputMode="decimal"
+            value={data.montoTramite || ""}
             onChange={(e) => handleMontoTramiteChange(e.target.value)}
             className={`${inputSmClass} ${validationErrors?.montoTramite ? "border-danger ring-1 ring-danger" : ""}`}
             placeholder="0"
@@ -184,7 +186,9 @@ export const GasFields: React.FC<GasFieldsProps> = ({ data, onChange, validation
           <label className="text-xs text-muted mb-1 block">Mano de obra</label>
           <input
             type="number"
-            value={data.montoManoObra}
+            step="0.01"
+            inputMode="decimal"
+            value={data.montoManoObra || ""}
             onChange={(e) => handleMontoManoObraChange(e.target.value)}
             className={`${inputSmClass} ${validationErrors?.montoManoObra ? "border-danger ring-1 ring-danger" : ""}`}
             placeholder="0"
@@ -209,7 +213,9 @@ export const GasFields: React.FC<GasFieldsProps> = ({ data, onChange, validation
                 />
                 <input
                   type="number"
-                  value={costo.monto}
+                  step="0.01"
+                  inputMode="decimal"
+                  value={costo.monto || ""}
                   onChange={(e) => handleOtroCostoMontoChange(idx, e.target.value)}
                   className="w-24 bg-surface-hover border border-border rounded px-2 py-1 text-xs text-fg focus:border-brand focus:outline-none"
                   placeholder="Monto"

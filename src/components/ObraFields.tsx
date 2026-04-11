@@ -51,7 +51,9 @@ export const ObraFields: React.FC<ObraFieldsProps> = ({ data, onChange, validati
           <label className={labelClass}>Precio por m2</label>
           <input
             type="number"
-            value={data.pricePerM2}
+            step="0.01"
+            inputMode="decimal"
+            value={data.pricePerM2 || ""}
             onChange={(e) => handlePriceChange(e.target.value)}
             className={`${inputClass} ${validationErrors?.pricePerM2 ? "border-danger ring-1 ring-danger" : ""}`}
             placeholder="0"
@@ -64,7 +66,9 @@ export const ObraFields: React.FC<ObraFieldsProps> = ({ data, onChange, validati
           <label className={labelClass}>Superficie (m2)</label>
           <input
             type="number"
-            value={data.surfaceM2}
+            step="0.01"
+            inputMode="decimal"
+            value={data.surfaceM2 || ""}
             onChange={(e) => handleSurfaceChange(e.target.value)}
             className={`${inputClass} ${validationErrors?.surfaceM2 ? "border-danger ring-1 ring-danger" : ""}`}
             placeholder="0"

@@ -5,31 +5,14 @@ import {
   Text,
   View,
   StyleSheet,
-  Font,
 } from "@react-pdf/renderer";
+import "@/lib/pdf-fonts";
 import {
   GASISTA_INFO,
   COLORS,
   OtroCosto,
 } from "@/lib/constants";
 import { formatCurrency, formatDate } from "@/lib/utils";
-
-// Register fonts
-Font.register({
-  family: "Montserrat",
-  fonts: [
-    { src: "/fonts/Montserrat-Bold.ttf", fontWeight: 700 },
-    { src: "/fonts/Montserrat-Black.ttf", fontWeight: 900 },
-  ],
-});
-
-Font.register({
-  family: "PTSans",
-  fonts: [
-    { src: "/fonts/PTSans-Regular.ttf", fontWeight: 400 },
-    { src: "/fonts/PTSans-Bold.ttf", fontWeight: 700 },
-  ],
-});
 
 interface GasBudgetDocumentProps {
   date: Date;
